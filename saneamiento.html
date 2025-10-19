@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Decisión Interactivo</title>
+    <!-- Carga de Tailwind CSS para un diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos base y variables CSS */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+
+        /* --- PALETA DE COLORES REFINADA (CON ENFOQUE VERDE) --- */
+        :root {
+            --color-green-primary: #3AB14B;      /* Verde principal para botones y acentos */
+            --color-green-light: #EFF8EF;        /* Tinte muy claro y suave para fondos de resultados (MODIFICADO: más suave) */
+            --color-green-dark: #2A8C39;        /* Sombra para textos importantes y hover */
+            --color-focus-green: #196727;      /* Color de enfoque: Verde oscuro profundo */
+            --color-focus-green-light: #e0f2e3; /* Tinte muy claro del verde de enfoque para el fondo de la pregunta */
+            --node-spacing: 24px;               /* Espacio de indentación para las ramas */
+        }
+        
+        /* Estilos de botones de opción (el árbol) */
+        .option-button {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            color: white; /* Asegura el texto blanco */
+            background-color: var(--color-green-primary);
+        }
+        .option-button:hover {
+            background-color: var(--color-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Estilo para la tarjeta de resultado final */
+        .result-card {
+            background-color: var(--color-green-light); /* MODIFICADO: Usa el tinte más suave */
+            border-left: 5px solid var(--color-green-primary);
+        }
+
+        /* --- Estilos Clave para la Indentación --- */
+
+        .node-container {
+            position: relative;
+            margin-left: var(--node-spacing);
+            padding-left: 2px;
+        }
+
+        .root-node {
+            margin-left: 0;
+            padding-left: 0;
+        }
+        
+        /* Tarjeta de decisión previa (Nodo completado) */
+        .completed-card {
+            background-color: #f0f4f8; /* Gris suave */
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 15px; 
+            margin-bottom: 5px;
+            position: relative;
+        }
+        /* Color de la selección en el paso completado */
+        .completed-card .selection-text {
+             color: var(--color-focus-green); /* Usar el nuevo verde de enfoque */
+        }
+        
+        /* La tarjeta activa (pregunta actual) */
+        .active-card {
+            background-color: #fff;
+            border: 2px solid var(--color-focus-green); /* Borde con verde de enfoque */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(25, 103, 39, 0.2); /* Sombra basada en el verde de enfoque */
+            padding: 1.5rem;
+            margin-top: 15px; 
+            position: relative;
+        }
+        /* Estilo para la pregunta dentro de la tarjeta activa */
+        .active-card .question-box {
+            background-color: var(--color-focus-green-light); /* Tinte verde claro */
+            border-left: 4px solid var(--color-focus-green);
+        }
+         /* Estilo para el texto dentro de la pregunta activa */
+        .active-card .question-box p {
+            color: var(--color-focus-green);
+        }
+        
+        /* Estilo para el botón de Volver */
+        .back-button {
+            color: var(--color-focus-green);
+        }
+        .back-button:hover {
+            color: var(--color-green-dark);
+        }
+        
+        /* Ajuste para el ícono de verificación en el paso completado */
+        .completed-card .selection-text svg {
+            color: var(--color-focus-green);
+        }
+        
+        /* Estilo para la selección final dentro del resultado */
+        .result-card .final-selection-text {
+            color: var(--color-green-primary); /* Nuevo color para la decisión final */
+        }
+
+    </style>
+</head>
+<body class="p-4 sm:p-8 min-h-screen flex flex-col items-center justify-center">
+
+    <div id="app" class="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-6 sm:p-10 border border-gray-100">
+
+        <!-- Encabezado de la Aplicación -->
+        <!-- AÑADIDO: Fondo suave al header y relleno para mejor contraste de logos -->
+        <header class="text-center mb-8 sm:mb-12 p-6 rounded-t-xl" style="background-color: var(--color-green-light);">
+            <!-- LOGOS INSTITUCIONALES -->
+            <div class="flex items-center justify-between gap-4 mb-6 w-full">
+                 <!-- Logo OPS y Canadá (Izquierda y más grande) -->
+                 <img src="paho-gac-colorlogo-es.png" alt="Logo de OPS y Canadá en colaboración" class="max-h-24 w-auto">
+                 
+                 <!-- Logo Iniciativa de Eliminación (Derecha) -->
+                 <img src="2023-paho-ei-complete-static-logo-rgb-blue-spa@1200x.png" alt="Logo Iniciativa de Eliminación" class="max-h-16 w-auto">
+            </div>
+            
+            <h1 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--color-green-primary);">
+                Árbol de Decisión Interactivo de Saneamiento Gestionado de Manera Segura
+            </h1>
+        </header>
+
+        <!-- Contenedor Principal del Árbol de Decisión -->
+        <div id="decision-container" class="space-y-1">
+            <!-- Aquí se cargan las tarjetas de decisión históricas y el paso actual -->
+        </div>
+
+        <!-- Sección de Herramientas (Se muestra según la primera selección) -->
+        <div id="tools-box" class="w-full mt-10 pt-6 border-t border-gray-200 hidden">
+            <!-- Contenido de las herramientas se inyectará aquí -->
+        </div>
+
+        <!-- Sección de Navegación/Control (MOVIDO AL FINAL) -->
+        <div class="mt-8 pt-4 border-t border-gray-200 flex justify-center">
+            <button id="restart-button" onclick="restartDecision()" class="hidden px-6 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition duration-150 transform hover:scale-105">
+                Reiniciar Proceso
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // 1. ESTRUCTURA DEL ÁRBOL DE DECISIONES
+        const decisionTree = {
+            id: 'root',
+            question: "Ámbito de Intervención WASH",
+            options: [
+                {
+                    label: "URBANO",
+                    id: 'urbano',
+                    next: {
+                        question: "Disponibilidad de Agua",
+                        options: [
+                            {
+                                label: "Agua Suficiente",
+                                id: 'urbano-suficiente',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Alcantarillado", result: "Alcantarillado convencional. Alcantarillado condominial. Reactores Anaeróbicos con deflectores (ABR). Lodos activados. Humedal artificial. Reuso de lodos o aguas residuales (riego, recarga de acuíferos fertilizantes, materia prima en ladrillos etc)" },
+                                        { label: "Sistema de Recolección y almacenamiento", result: "Tanques Sépticos multifamiliares o públicos (barriales). Filtro Anaerobio de flujo ascendente. Vaciado y transporte manual o mecanizado" },
+                                        { label: "In Situ", result: "Alcantarillado condominial o de pequeño diámetro para efluentes y disposición de aguas grises. Letrina de cierre hidráulico. Tanques sépticos. Baños secos ecológicos con sistema de recolección de lodos. Humedal artificial" }
+                                    ]
+                                }
+                            },
+                            {
+                                label: "Escasez de Agua",
+                                id: 'urbano-escasez',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Recolección y almacenamiento", result: "Tanques Sépticos multifamiliares o públicos (barriales)" },
+                                        { label: "In Situ", result: "Baños secos ecológicos con fosa Séptica. Vaciado y transporte manual o mecanizado" }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    label: "RURAL",
+                    id: 'rural',
+                    next: {
+                        question: "Disponibilidad de Agua",
+                        options: [
+                            {
+                                label: "Agua Suficiente",
+                                id: 'rural-suficiente',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Alcantarillado", result: "Alcantarillado convencional. Alcantarillado condominial. Reactores Anaeróbicos con deflectores (ABR). Reactor de Biogas. Humedal artificial. Cámara de compostaje" },
+                                        { label: "Sistema de Recolección y almacenamiento", result: "Tanques Sépticos multifamiliares o públicos (barriales). Filtro Anaerobio de flujo ascendente. Vaciado y transporte manual o mecanizado. Pozo de absorción" },
+                                        { label: "Lagunas", result: "Lagunas de oxidación. Lagunas de maduración. Lagunas facultativas. Laguna de sedimentación. Humedal artificial" },
+                                        { label: "In Situ", result: "Letrina de cierre hidráulico. Tanques sépticos. Baños secos ecológicos con sistema de recolección de lodos. Humedal artificial" }
+                                    ]
+                                }
+                            },
+                            {
+                                label: "Escasez de Agua",
+                                id: 'rural-escasez',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Recolección y almacenamiento", result: "Tanques Sépticos multifamiliares o públicos (barriales). Fosa Séptica. Vaciado y transporte manual o mecanizado. Cámara de compostaje. Lodos activados" },
+                                        { label: "In Situ", result: "Fosa Séptica. Vaciado y transporte manual o mecanizado. Baños secos ecológicos con separación de orina. Baño de cámara doble mejorada ventilada o de fosa alterna" }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        // 2. DATOS DE HERRAMIENTAS Y RECURSOS
+        const toolsData = [
+            { ambito: 'URBANO', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
+            { ambito: 'URBANO', documento: 'Protocolo para evaluar la situación del agua, el saneamiento y la higiene en establecimientos de salud con atención a la resiliencia al clima', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55724/978927532501_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Sector de agua potable, saneamiento e higiene: una guía práctica para la coordinación de emergencias de salud pública y desastres', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/31152/Guia%20practica%20para%20la%20coordinacion%20de%20emergencias%20de%20salud%20publica%20y%20desastres.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Situación del marco para la seguridad del agua de consumo humano en América Latina y el Caribe', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55388/9789275324554_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Metodología de los diálogos de saberes', enlace: 'https://iris.paho.org/handle/10665.2/55670' },
+            { ambito: 'URBANO', documento: 'Orientaciones para la elaboración de perfiles de situación de enfermedades transmisibles en el marco de los progresos hacia su eliminación en la Región de las Américas', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/58085/9789275326596_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Notas técnicas sobre agua, saneamiento e higiene en emergencias', enlace: 'https://www.paho.org/es/emergencias-salud/notas-tecnicas-sobre-agua-saneamiento-e-higiene-emergencias' },
+            { ambito: 'URBANO', documento: 'Curso Virtual: Planes de Seguridad del Saneamiento Resilientes al Clima', enlace: 'https://campus.paho.org/es/curso/PlanesSeguridad_SaneamientoClima-RC' },
+            { ambito: 'URBANO', documento: 'Curso Virtual: Agua, saneamiento e higiene (WASH) y salud: trabajando juntos', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-e-higiene-wash' },
+            { ambito: 'URBANO', documento: 'Curso sobre agua, saneamiento, higiene y la resiliencia al clima en establecimientos de salud WASH FIT', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-higiene_establecimientos-salud-WASHFIT' },
+            { ambito: 'URBANO', documento: 'Metodologia WASHFIT: Evalucación del Agua, Saneamiento e Higiene en Establecimientos de Salud', enlace: 'https://www.washinhcf.org/wash-fit-espanol/' },
+            { ambito: 'URBANO', documento: 'Tecnologías de saneamiento básico y avanzado, y gestión de aguas pluviales convencionales y no convencionales para poblaciones rurales o periurbanas', enlace: 'https://drive.google.com/file/d/1sdRM2VBHMX5Xto4J4VTsLtWIBB2b4eR9/view?usp=drive_link' },
+            { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
+            { ambito: 'RURAL', documento: 'Animaciones: Dia Mundial de la enfermedades tropicales desatendidas', enlace: 'https://who.canto.global/v/JBSAFSL97F/album/VJIJ5?display=fitView&viewIndex=0&gOrderProp=uploadDate&referenceTo&from=fitView' },
+            { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano: pequeños sistemas de abastecimiento de agua - Resumen de orientación', enlace: 'https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/water-safety-planning/sanitary-inspection-packages/24_who_smallsystemses_a4_spanish_wr.pdf?sfvrsn=4f003870_9&download=true' },
+            { ambito: 'RURAL', documento: 'Situación del marco para la seguridad del agua de consumo humano en América Latina y el Caribe', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55388/9789275324554_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Metodología de los diálogos de saberes', enlace: 'https://iris.paho.org/handle/10665.2/55670' },
+            { ambito: 'RURAL', documento: 'Orientaciones para la elaboración de perfiles de situación de enfermedades transmisibles en el marco de los progresos hacia su eliminación en la Región de las Américas', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/58085/9789275326596_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Guías para el diseño de estaciones de bombeo de agua potable', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55454/OPSCEPIS05161_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Guia de Operación y mantenimiento de sistemas de alcantarillado sanitario en el medio rural', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55898/OPSCEPIS05152_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Curso Virtual: Agua, saneamiento e higiene (WASH) y salud: trabajando juntos', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-e-higiene-wash' },
+            { ambito: 'RURAL', documento: 'Metodología WASHFIT: Evalucación del Agua, Saneamiento e Higiene en Establecimientos de Salud', enlace: 'https://www.washinhcf.org/wash-fit-espanol/' },
+            { ambito: 'RURAL', documento: 'Tecnologías convencionales y no convencionales de abastecimiento y tratamiento de agua para poblaciones rurales concentradas', enlace: 'https://drive.google.com/file/d/1dJCJ7AWE90ePr1G06xUK8n4n-oE8Y9rk/view?usp=drive_link' },
+            { ambito: 'RURAL', documento: 'Tecnologías de saneamiento básico y avanzado, y gestión de aguas pluviales convencionales y no convencionales para poblaciones rurales o periurbanas', enlace: 'https://drive.google.com/file/d/1sdRM2VBHMX5Xto4J4VTsLtWIBB2b4eR9/view?usp=drive_link' },
+            { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano para pequeños sistemas de abastecimiento de agua', enlace: 'https://drive.google.com/file/d/10NWIIxipyryLaN1cWcwy6J48sVVDO5J2/view?usp=drive_link' },
+        ];
+        
+        // 3. GESTIÓN DEL ESTADO
+        const container = document.getElementById('decision-container');
+        const restartButton = document.getElementById('restart-button');
+        const toolsBox = document.getElementById('tools-box'); 
+        
+        // Almacena el camino de decisiones tomadas: [{ question: string, selection: string, nextStep: Object }]
+        let currentPath = []; 
+
+        /**
+         * Determina el paso actual del árbol en base al camino recorrido.
+         * @returns {Object} El nodo (pregunta y opciones) actual a mostrar.
+         */
+        function getCurrentStep() {
+            let step = decisionTree;
+            for (const pathItem of currentPath) {
+                step = pathItem.nextStep;
+            }
+            return step;
+        }
+
+        /**
+         * Función recursiva para renderizar los nodos del árbol.
+         * @param {number} index El índice del nodo en el camino.
+         * @param {HTMLElement} parentNode El elemento HTML donde se debe inyectar el nodo.
+         */
+        function renderNode(index, parentNode) {
+            const pathItem = currentPath[index];
+            const isRoot = index === 0;
+
+            // 1. Crear el contenedor para el nodo (maneja el margen de indentación)
+            const nodeContainer = document.createElement('div');
+            nodeContainer.className = `node-container ${isRoot ? 'root-node' : ''}`;
+            parentNode.appendChild(nodeContainer);
+
+            // 2. Tarjeta de paso completado
+            const completedCard = document.createElement('div');
+            completedCard.className = 'completed-card w-full shadow-md';
+            completedCard.innerHTML = `
+                <!-- Eliminado: Paso ${index + 1}. -->
+                <p class="text-sm font-bold text-gray-600">${pathItem.question}</p>
+                <p class="text-lg font-extrabold mt-1 flex items-center selection-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    ${pathItem.selection}
+                </p>
+            `;
+            nodeContainer.appendChild(completedCard);
+
+            // 3. Continuar la recursión o mostrar el paso activo/resultado
+            if (index + 1 < currentPath.length) {
+                renderNode(index + 1, nodeContainer);
+            } else {
+                const currentStepData = pathItem.nextStep;
+                if (currentStepData.result) {
+                    displayResult(currentStepData.label, currentStepData.result, nodeContainer);
+                } else {
+                    renderActiveStep(currentStepData, nodeContainer);
+                }
+            }
+        }
+        
+        /**
+         * Renderiza la vista completa del árbol (pasos anteriores y el paso actual).
+         * También gestiona la visibilidad del box de herramientas.
+         */
+        function renderPath() {
+            container.innerHTML = '';
+            restartButton.classList.add('hidden');
+            toolsBox.classList.add('hidden'); // Ocultar por defecto
+            
+            // Si el camino está vacío, renderizar el paso raíz
+            if (currentPath.length === 0) {
+                renderActiveStep(decisionTree, container, true); // Pasar 'true' para indicar que es la raíz
+            } else {
+                // Si hay historial, iniciar el renderizado recursivo del camino
+                renderNode(0, container);
+            }
+        }
+        
+        /**
+         * Renderiza el cuadro de pregunta y opciones interactivas para el paso actual.
+         * @param {Object} step El objeto del paso actual.
+         * @param {HTMLElement} parentNode El contenedor donde se debe insertar.
+         * @param {boolean} isRoot Indica si es el primer paso.
+         */
+        function renderActiveStep(step, parentNode, isRoot = false) {
+            
+            const activeContainer = document.createElement('div');
+            activeContainer.className = `node-container ${isRoot ? 'root-node' : ''}`;
+            parentNode.appendChild(activeContainer);
+
+            const activeCard = document.createElement('div');
+            activeCard.className = 'active-card w-full transition-all duration-500';
+            
+            // Botón de retroceso, solo visible si NO es el nodo raíz
+            const backButtonHtml = isRoot ? '' : `
+                <button onclick="goBack()" class="flex items-center text-sm font-semibold mb-4 transition back-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Volver al paso anterior
+                </button>
+            `;
+
+            activeCard.innerHTML = `
+                ${backButtonHtml}
+                <div class="mb-6 p-4 rounded-lg question-box">
+                    <!-- Eliminado: ${currentPath.length + 1}. -->
+                    <p class="text-xl font-bold">${step.question}</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="options-grid">
+                    <!-- Opciones se insertan aquí -->
+                </div>
+            `;
+            activeContainer.appendChild(activeCard);
+
+            const optionsGrid = activeCard.querySelector('#options-grid');
+
+            step.options.forEach(option => {
+                const button = document.createElement('button');
+                // Uso de clases CSS y variables para el estilo
+                button.className = 'option-button w-full px-5 py-3 text-white font-semibold rounded-xl focus:outline-none focus:ring-4 focus:ring-green-300 shadow-md';
+                button.textContent = option.label;
+                
+                // Al hacer click, agrega el paso al historial y vuelve a renderizar
+                button.onclick = () => handleSelection(option, step.question);
+
+                optionsGrid.appendChild(button);
+            });
+        }
+
+        /**
+         * Maneja la selección de una opción, actualiza el camino y redibuja.
+         * @param {Object} option La opción seleccionada.
+         * @param {string} previousQuestion La pregunta de la que proviene la opción.
+         */
+        function handleSelection(option, previousQuestion) {
+            // Ya no se renderizan las herramientas aquí. Se hará en displayResult.
+
+            // Guardar el paso tomado
+            currentPath.push({
+                question: previousQuestion,
+                selection: option.label,
+                nextStep: option.next || option
+            });
+            
+            // Redibujar el árbol completo para mostrar el crecimiento
+            renderPath();
+        }
+
+        /**
+         * Muestra la tecnología apropiada como resultado final y las herramientas.
+         * @param {string} finalSelection El label de la última selección.
+         * @param {string} resultText El texto de la tecnología apropiada.
+         * @param {HTMLElement} parentNode El contenedor donde se debe insertar.
+         */
+        function displayResult(finalSelection, resultText, parentNode) {
+            
+            const resultContainer = document.createElement('div');
+            resultContainer.className = 'node-container mt-4';
+            parentNode.appendChild(resultContainer);
+            
+            // Se usa text-sm para los bullets (MODIFICADO)
+            const resultListItems = resultText.split('. ').map(item => item.trim()).filter(item => item.length > 0).map(item => `
+                <li class="p-2 rounded-lg text-sm" style="background-color: var(--color-green-light); color: var(--color-green-dark);">${item}</li>
+            `).join('');
+
+            const finalResultHtml = `
+                <div class="result-card p-6 rounded-xl shadow-xl space-y-4 relative">
+                    <!-- Título modificado a solo "Tecnología Apropiada" -->
+                    <p class="text-xl font-extrabold" style="color: var(--color-green-dark);">
+                        Tecnología Apropiada:
+                        <span class="text-xl font-semibold text-gray-700 block mt-2">
+                           
+                        </span>
+                    </p>
+                    <div class="h-1 rounded" style="background-color: var(--color-green-primary);"></div> 
+                    <ul class="list-disc list-inside space-y-0 text-gray-800 ml-4">
+                        ${resultListItems}
+                    </ul>
+                </div>
+            `;
+
+
+            // 1. Añadir el resultado
+            resultContainer.innerHTML = finalResultHtml;
+
+            // 2. Mostrar el botón de Reiniciar
+            restartButton.classList.remove('hidden'); 
+            
+            // 3. Renderizar el box de herramientas (¡Nuevo requisito!)
+            // Se toma la primera selección que es el Ámbito (URBANO o RURAL)
+            const ambitoSeleccionado = currentPath.length > 0 ? currentPath[0].selection.toUpperCase() : '';
+            if (ambitoSeleccionado) {
+                 renderToolsBox(ambitoSeleccionado);
+            }
+        }
+        
+        /**
+         * Renderiza el box de herramientas filtrado por ámbito.
+         * @param {string} ambito El ámbito seleccionado ('URBANO' o 'RURAL').
+         */
+        function renderToolsBox(ambito) {
+            
+            // Filtrar herramientas por ámbito (Urbano o Rural)
+            const filteredTools = toolsData.filter(tool => tool.ambito === ambito);
+
+            if (filteredTools.length === 0) {
+                toolsBox.classList.add('hidden');
+                toolsBox.innerHTML = '';
+                return;
+            }
+            
+            // Generar el HTML de las herramientas
+            const toolsListHtml = filteredTools.map(tool => `
+                <li class="p-3 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition duration-150">
+                    <a href="${tool.enlace}" target="_blank" class="text-sm font-medium flex items-start hover:text-blue-700" style="color: var(--color-green-dark);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mt-1 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        <span class="flex-grow">${tool.documento}</span>
+                    </a>
+                </li>
+            `).join('');
+
+            toolsBox.innerHTML = `
+                <h2 class="text-2xl font-bold mb-4 pt-4 border-t" style="color: var(--color-focus-green);">Herramientas y Recursos</h2>
+                <p class="text-sm text-gray-600 mb-4">Los siguientes recursos están disponibles para el ámbito seleccionado (${ambito.toLowerCase()}):</p>
+                <ul class="space-y-3 p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-inner">
+                    ${toolsListHtml}
+                </ul>
+            `;
+            toolsBox.classList.remove('hidden');
+        }
+
+
+        /**
+         * Retrocede un paso en el historial de decisiones.
+         */
+        function goBack() {
+            if (currentPath.length > 0) {
+                currentPath.pop(); // Elimina el último paso
+                // Al volver, renderPath ocultará las herramientas si ya no está el resultado final.
+                renderPath(); // Redibuja el árbol
+            }
+        }
+
+        /**
+         * Reinicia el árbol de decisiones a la primera pregunta.
+         */
+        function restartDecision() {
+            currentPath = [];
+            toolsBox.classList.add('hidden'); // Ocultar el box de herramientas al reiniciar
+            renderPath();
+        }
+
+        // Iniciar la aplicación mostrando el primer paso
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPath();
+        });
+    </script>
+</body>
+</html>

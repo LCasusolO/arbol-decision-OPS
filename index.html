@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Decisión Interactivo</title>
+    <!-- Carga de Tailwind CSS para un diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos base */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+
+        /* --- PALETA DE COLORES GLOBAL (AZUL/NARANJA) --- */
+        :root {
+            /* Colores de la paleta general */
+            --color-primary-dark: #00539B; /* Azul Marino */
+            --color-accent: #F7931E;       /* Naranja */
+            --color-light-bg: #EAF4FC;     /* Azul más claro para fondos suaves (home) */
+            --color-accent-light-bg: #FFF3E6; /* Naranja más claro para fondos suaves (home) */
+
+            /* Colores TEMÁTICOS (para asegurar consistencia al saltar a decision_tree.html) */
+            --color-water-theme: #00B0F0;      /* Celeste Principal para Agua */
+            --color-sanitation-theme: #3AB14B; /* Verde Principal para Saneamiento */
+
+            /* Aplicar Azul Marino al título y Azul Claro al fondo del encabezado */
+            --color-header-bg: var(--color-light-bg); 
+            --color-title: var(--color-primary-dark);
+        }
+        
+        .home-button {
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+        }
+        .home-button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Estilos específicos del botón AGUA (Celeste) */
+        .btn-water {
+            border-color: var(--color-water-theme);
+            background-color: #E0F5FF; /* Tinte celeste claro */
+        }
+        .btn-water h2 {
+            color: var(--color-water-theme);
+        }
+
+        /* Estilos específicos del botón SANEAMIENTO (Verde) */
+        .btn-sanitation {
+            border-color: var(--color-sanitation-theme);
+            background-color: #EFF8EF; /* Tinte verde claro */
+        }
+        .btn-sanitation h2 {
+            color: var(--color-sanitation-theme);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 min-h-screen flex flex-col items-center justify-center">
+
+    <div id="app" class="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-6 sm:p-10 border border-gray-100">
+
+        <!-- Encabezado de la Aplicación -->
+        <header id="app-header" class="text-center mb-12 p-6 rounded-t-xl" style="background-color: var(--color-header-bg);">
+            <!-- LOGOS INSTITUCIONALES -->
+            <div class="flex items-center justify-between gap-4 mb-6 w-full max-w-2xl mx-auto">
+                 <img src="paho-gac-colorlogo-es.png" alt="Logo de OPS y Canadá en colaboración" class="max-h-24 w-auto">
+                 <img src="2023-paho-ei-complete-static-logo-rgb-blue-spa@1200x.png" alt="Logo Iniciativa de Eliminación" class="max-h-16 w-auto">
+            </div>
+            
+            <h1 id="main-title" class="text-3xl sm:text-4xl font-extrabold" style="color: var(--color-title);">
+                Árbol de Decisión Interactivo
+            </h1>
+        </header>
+        
+        <!-- Contenedor Principal de la Selección -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-4">
+            
+            <!-- Botón Agua (CELESTE) -->
+            <a href="D:\2. CONSULTORIAS\3. OPS\HERRAMIENTAS DE ARBOL\agua.html" 
+                class="home-button btn-water block p-8 rounded-xl shadow-lg border-b-8">
+                <h2 class="text-2xl font-bold mb-2">💧 Agua Gestionada de Manera Segura</h2>
+            </a>
+            
+            <!-- Botón Saneamiento (VERDE) -->
+            <a href="D:\2. CONSULTORIAS\3. OPS\HERRAMIENTAS DE ARBOL\saneamiento.html" 
+                class="home-button btn-sanitation block p-8 rounded-xl shadow-lg border-b-8">
+                <h2 class="text-2xl font-bold mb-2">🚽 Saneamiento Gestionado de Manera Segura</h2>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

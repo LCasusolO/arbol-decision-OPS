@@ -194,38 +194,53 @@
         // ==========================================================================
         // CONFIGURACIÓN DE RUTAS
         // ==========================================================================
-        const RUTA_IMAGENES = "AGUA/";
-
+        // Usamos la ruta "raw" de GitHub para acceder a las imágenes directamente desde la nube
+        const RUTA_IMAGENES = "https://raw.githubusercontent.com/LCasusoIO/arbol-decision-OPS/main/AGUA/";
+        
         function resolverRutaImagen(nombreArchivo) {
-            if (!nombreArchivo) return '';
-            if (nombreArchivo.startsWith('http') || nombreArchivo.startsWith('https')) {
-                return nombreArchivo;
-            }
-            // Agrega extensión .png si no la tiene y no es una URL
-            let nombreLimpio = nombreArchivo.trim();
-            if (!nombreLimpio.toLowerCase().endsWith('.png') && !nombreLimpio.toLowerCase().endsWith('.jpg') && !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
-                return RUTA_IMAGENES + nombreLimpio + ".png";
-            }
-            return RUTA_IMAGENES + nombreLimpio;
-        }
+                    if (!nombreArchivo) return '';
+                    
+                    // Si ya es un link completo (http...), lo devolvemos tal cual
+                    if (nombreArchivo.startsWith('http') || nombreArchivo.startsWith('https')) {
+                        return nombreArchivo;
+                    }
+        
+                    let nombreLimpio = nombreArchivo.trim();
+        
+                    // CORRECCIÓN: Si el nombre termina en punto (ej: "Ficha 10."), lo quitamos antes de poner .png
+                    if (nombreLimpio.endsWith('.')) {
+                        nombreLimpio = nombreLimpio.slice(0, -1);
+                    }
+        
+                    // Agrega extensión .png si no la tiene
+                    let nombreConExtension = nombreLimpio;
+                    if (!nombreLimpio.toLowerCase().endsWith('.png') && 
+                        !nombreLimpio.toLowerCase().endsWith('.jpg') && 
+                        !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
+                        nombreConExtension = nombreLimpio + ".png";
+                    }
+        
+                    // IMPORTANTE: encodeURIComponent convierte los espacios en %20 para que el navegador los lea bien
+                    return RUTA_IMAGENES + encodeURIComponent(nombreConExtension);
+                }
 
         // ==========================================================================
         // 1. BASE DE DATOS PRINCIPAL (Datos)
         // ==========================================================================
         const baseDeDatos = [
             // --- URBANA -> AGUA SUFICIENTE -> SUPERFICIAL ---
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Sistema de gravedad con tratamiento", img: "Ficha 2.png", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Cosecha de agua lluvia en estanques de tierra", img: "Ficha 10.png", link: "https://drive.google.com/file/d/1DzIPuYw7CfElWGzEuthkhAq3CmjVYFYS/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Reservorios", img: "Ficha 20.png", link: "https://drive.google.com/file/d/1fR4M67Oj5lEyDEuRfOjMi5gEFqgSQcfc/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtración lenta con arena", img: "Ficha 21.png", link: "https://drive.google.com/file/d/1mn3xW91c93VEYQKQvAZgMZHNTq0amlzU/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtro rápido de arena", img: "Ficha 22.png", link: "https://drive.google.com/file/d/10uP30mjUSfKZe4d-fu1sP3VnwiIyMr51/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtro de cerámica (solo)", img: "Ficha 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Miniacueducto por gravedad (MAG)", img: "Ficha 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Planta potabilizadora compacta o modular", img: "Ficha 35", link: "https://drive.google.com/file/d/1ksB3TCEoTxZwT04snvQ_kWlLyS7YNFui/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Micromedición", titulo: "Agua y Saneamiento: nuevos paradigmas", img: "Agua y Saneamiento: en búsqueda de nuevos paradigmas para las Américas", link: "https://iris.paho.org/bitstream/handle/10665.2/51544/9789275116692_spa.pdf" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Sensores de consumo inteligentes", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Potable reuse : Guidance for producing safe drinking-water", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Uso de aparatos de bajo consumo de agua", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Potable reuse : Guidance for producing safe drinking-water", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Reuso de lodos o aguas residuales", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Potable reuse : Guidance for producing safe drinking-water", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Sistema de gravedad con tratamiento", img: "FICHA 2", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Cosecha de agua lluvia en estanques de tierra", img: "FICHA 10", link: "https://drive.google.com/file/d/1DzIPuYw7CfElWGzEuthkhAq3CmjVYFYS/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Reservorios", img: "FICHA 20", link: "https://drive.google.com/file/d/1fR4M67Oj5lEyDEuRfOjMi5gEFqgSQcfc/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtración lenta con arena", img: "FICHA 21", link: "https://drive.google.com/file/d/1mn3xW91c93VEYQKQvAZgMZHNTq0amlzU/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtro rápido de arena", img: "FICHA 22", link: "https://drive.google.com/file/d/10uP30mjUSfKZe4d-fu1sP3VnwiIyMr51/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtro de cerámica (solo)", img: "FICHA 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Miniacueducto por gravedad (MAG)", img: "FICHA 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Planta potabilizadora compacta o modular", img: "FICHA 35", link: "https://drive.google.com/file/d/1ksB3TCEoTxZwT04snvQ_kWlLyS7YNFui/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Micromedición", titulo: "Agua y Saneamiento: nuevos paradigmas", img: "documento agua y saneamiento", link: "https://iris.paho.org/bitstream/handle/10665.2/51544/9789275116692_spa.pdf" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Sensores de consumo inteligentes", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Doc potable reuse", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Uso de aparatos de bajo consumo de agua", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Doc potable reuse", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Reuso de lodos o aguas residuales", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Doc potable reuse", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
             
             { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Suministro de agua en Tanques cisterna", titulo: "Water trucking", img: "FICHA 37", link: "https://drive.google.com/file/d/1sdUbslNu_u2h6qF8kY2IfNzHOQWTrnu9/view" },
             { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Micromedición", titulo: "Agua y Saneamiento: nuevos paradigmas", img: "Agua y Saneamiento: en búsqueda de nuevos paradigmas para las Américas", link: "https://iris.paho.org/bitstream/handle/10665.2/51544/9789275116692_spa.pdf" },
@@ -1043,5 +1058,6 @@
 </body>
 
 </html>
+
 
 

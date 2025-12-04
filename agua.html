@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Árbol de Decisión Interactivo</title>
-    <!-- Carga de Tailwind CSS para un diseño moderno y responsivo -->
+    <title>Árbol de Decisión Interactivo - WASH</title>
+    <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Iconos Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Estilos base y variables CSS */
         body {
@@ -13,37 +16,37 @@
             background-color: #f7f9fc;
         }
 
-        /* --- NUEVA PALETA DE COLORES (BASADA EN CELESTE) --- */
+        /* --- PALETA DE COLORES --- */
         :root {
-            --color-blue-primary: #00B0F0;      /* Celeste Principal */
-            --color-blue-light: #E0F5FF;        /* Tinte muy claro y suave para fondos de encabezado y resultados */
-            --color-blue-dark: #008BC0;        /* Sombra para hover y textos importantes */
-            --color-focus-blue: #005C8C;      /* Color de enfoque: Azul oscuro profundo */
-            --color-focus-blue-light: #C0E9FF; /* Tinte muy claro del azul de enfoque para el fondo de la pregunta */
-            --node-spacing: 24px;               /* Espacio de indentación para las ramas */
+            --color-blue-primary: #00B0F0;
+            --color-blue-light: #E0F5FF;
+            --color-blue-dark: #008BC0;
+            --color-focus-blue: #005C8C;
+            --color-focus-blue-light: #C0E9FF;
+            --node-spacing: 24px;
         }
-        
-        /* Estilos de botones de opción (el árbol) */
+
+        /* Estilos de botones de opción */
         .option-button {
             transition: all 0.2s ease-in-out;
             cursor: pointer;
-            color: white; /* Asegura el texto blanco */
+            color: white;
             background-color: var(--color-blue-primary);
         }
+
         .option-button:hover {
             background-color: var(--color-blue-dark);
             transform: translateY(-2px);
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Estilo para la tarjeta de resultado final */
         .result-card {
-            background-color: var(--color-blue-light); /* MODIFICADO: Usa el tinte más suave */
+            background-color: var(--color-blue-light);
             border-left: 5px solid var(--color-blue-primary);
         }
 
         /* --- Estilos Clave para la Indentación --- */
-
         .node-container {
             position: relative;
             margin-left: var(--node-spacing);
@@ -54,102 +57,325 @@
             margin-left: 0;
             padding-left: 0;
         }
-        
+
         /* Tarjeta de decisión previa (Nodo completado) */
         .completed-card {
-            background-color: #f0f4f8; /* Gris suave */
+            background-color: #f0f4f8;
             border-radius: 8px;
             padding: 1rem;
-            margin-top: 15px; 
+            margin-top: 15px;
             margin-bottom: 5px;
             position: relative;
         }
-        /* Color de la selección en el paso completado */
+
         .completed-card .selection-text {
-             color: var(--color-focus-blue); /* Usar el nuevo azul de enfoque */
+            color: var(--color-focus-blue);
         }
-        
+
         /* La tarjeta activa (pregunta actual) */
         .active-card {
             background-color: #fff;
-            border: 2px solid var(--color-focus-blue); /* Borde con azul de enfoque */
+            border: 2px solid var(--color-focus-blue);
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 92, 140, 0.2); /* Sombra basada en el azul de enfoque */
+            box-shadow: 0 4px 15px rgba(0, 92, 140, 0.2);
             padding: 1.5rem;
-            margin-top: 15px; 
+            margin-top: 15px;
             position: relative;
         }
-        /* Estilo para la pregunta dentro de la tarjeta activa */
+
         .active-card .question-box {
-            background-color: var(--color-focus-blue-light); /* Tinte azul claro */
+            background-color: var(--color-focus-blue-light);
             border-left: 4px solid var(--color-focus-blue);
         }
-         /* Estilo para el texto dentro de la pregunta activa */
+
         .active-card .question-box p {
             color: var(--color-focus-blue);
         }
-        
+
         /* Estilo para el botón de Volver */
         .back-button {
             color: var(--color-focus-blue);
         }
+
         .back-button:hover {
             color: var(--color-blue-dark);
         }
-        
-        /* Ajuste para el ícono de verificación en el paso completado */
+
         .completed-card .selection-text svg {
             color: var(--color-focus-blue);
         }
-        
-        /* Estilo para la selección final dentro del resultado */
+
         .result-card .final-selection-text {
-            color: var(--color-blue-primary); /* Nuevo color para la decisión final */
+            color: var(--color-blue-primary);
         }
 
+        /* --- ESTILOS PARA EL ACORDEÓN --- */
+        details>summary {
+            list-style: none;
+        }
+
+        details>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open] summary~* {
+            animation: sweep .3s ease-in-out;
+        }
+
+        @keyframes sweep {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px)
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        details[open] .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .custom-accordion {
+            background-color: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+        }
+
+        .custom-accordion summary {
+            color: var(--color-focus-blue);
+            font-weight: 600;
+        }
+
+        .custom-accordion:hover {
+            border-color: var(--color-blue-primary);
+        }
     </style>
 </head>
+
 <body class="p-4 sm:p-8 min-h-screen flex flex-col items-center justify-center">
 
     <div id="app" class="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-6 sm:p-10 border border-gray-100">
 
-        <!-- Encabezado de la Aplicación -->
-        <!-- Usando el nuevo color de fondo azul claro -->
+        <!-- Encabezado -->
         <header class="text-center mb-8 sm:mb-12 p-6 rounded-t-xl" style="background-color: var(--color-blue-light);">
-            <!-- LOGOS INSTITUCIONALES -->
             <div class="flex items-center justify-between gap-4 mb-6 w-full">
-                 <!-- Logo OPS y Canadá (Izquierda y más grande) -->
-                 <img src="paho-gac-colorlogo-es.png" alt="Logo de OPS y Canadá en colaboración" class="max-h-24 w-auto">
-                 
-                 <!-- Logo Iniciativa de Eliminación (Derecha) -->
-                 <img src="2023-paho-ei-complete-static-logo-rgb-blue-spa@1200x.png" alt="Logo Iniciativa de Eliminación" class="max-h-16 w-auto">
+                <!-- Logos -->
+                <img src="paho-gac-colorlogo-es.png" alt="Logo de OPS y Canadá" class="max-h-24 w-auto"
+                    onerror="this.style.display='none'">
+                <img src="2023-paho-ei-complete-static-logo-rgb-blue-spa@1200x.png" alt="Logo Iniciativa"
+                    class="max-h-16 w-auto" onerror="this.style.display='none'">
             </div>
-            
             <h1 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--color-blue-primary);">
                 Árbol de Decisión Interactivo de Agua Gestionada de Manera Segura
             </h1>
         </header>
 
-        <!-- Contenedor Principal del Árbol de Decisión -->
-        <div id="decision-container" class="space-y-1">
-            <!-- Aquí se cargan las tarjetas de decisión históricas y el paso actual -->
-        </div>
+        <!-- Contenedor Principal -->
+        <div id="decision-container" class="space-y-1"></div>
 
-        <!-- Sección de Herramientas (Se muestra según la primera selección) -->
-        <div id="tools-box" class="w-full mt-10 pt-6 border-t border-gray-200 hidden">
-            <!-- Contenido de las herramientas se inyectará aquí -->
-        </div>
+        <!-- Sección de Herramientas -->
+        <div id="tools-box" class="w-full mt-10 pt-6 border-t border-gray-200 hidden"></div>
 
-        <!-- Sección de Navegación/Control (MOVIDO AL FINAL) -->
+        <!-- Botón de Reinicio -->
         <div class="mt-8 pt-4 border-t border-gray-200 flex justify-center">
-            <button id="restart-button" onclick="restartDecision()" class="hidden px-6 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition duration-150 transform hover:scale-105">
+            <button id="restart-button" onclick="restartDecision()"
+                class="hidden px-6 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition duration-150 transform hover:scale-105">
                 Reiniciar Proceso
             </button>
         </div>
     </div>
 
     <script>
-        // 1. ESTRUCTURA DEL ÁRBOL DE DECISIONES PARA AGUA (ACTUALIZADA CON RURAL CONCENTRADO Y DISPERSO)
+        lucide.createIcons();
+
+        // ==========================================================================
+        // CONFIGURACIÓN DE RUTAS
+        // ==========================================================================
+        const RUTA_IMAGENES = "./AGUA/";
+
+        function resolverRutaImagen(nombreArchivo) {
+            if (!nombreArchivo) return '';
+            if (nombreArchivo.startsWith('http') || nombreArchivo.startsWith('https')) {
+                return nombreArchivo;
+            }
+            // Agrega extensión .png si no la tiene y no es una URL
+            let nombreLimpio = nombreArchivo.trim();
+            if (!nombreLimpio.toLowerCase().endsWith('.png') && !nombreLimpio.toLowerCase().endsWith('.jpg') && !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
+                return RUTA_IMAGENES + nombreLimpio + ".png";
+            }
+            return RUTA_IMAGENES + nombreLimpio;
+        }
+
+        // ==========================================================================
+        // 1. BASE DE DATOS PRINCIPAL (Datos)
+        // ==========================================================================
+        const baseDeDatos = [
+            // --- URBANA -> AGUA SUFICIENTE -> SUPERFICIAL ---
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Sistema de gravedad con tratamiento", img: "Ficha 2", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Cosecha de agua lluvia en estanques de tierra", img: "Ficha 10", link: "https://drive.google.com/file/d/1DzIPuYw7CfElWGzEuthkhAq3CmjVYFYS/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Reservorios", img: "Ficha 20", link: "https://drive.google.com/file/d/1fR4M67Oj5lEyDEuRfOjMi5gEFqgSQcfc/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtración lenta con arena", img: "Ficha 21", link: "https://drive.google.com/file/d/1mn3xW91c93VEYQKQvAZgMZHNTq0amlzU/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtro rápido de arena", img: "Ficha 22", link: "https://drive.google.com/file/d/10uP30mjUSfKZe4d-fu1sP3VnwiIyMr51/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Filtro de cerámica (solo)", img: "Ficha 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Miniacueducto por gravedad (MAG)", img: "Ficha 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Plantas de tratamiento de alta eficiencia", titulo: "Planta potabilizadora compacta o modular", img: "Ficha 35", link: "https://drive.google.com/file/d/1ksB3TCEoTxZwT04snvQ_kWlLyS7YNFui/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Micromedición", titulo: "Agua y Saneamiento: nuevos paradigmas", img: "Agua y Saneamiento: en búsqueda de nuevos paradigmas para las Américas", link: "https://iris.paho.org/bitstream/handle/10665.2/51544/9789275116692_spa.pdf" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Sensores de consumo inteligentes", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Potable reuse : Guidance for producing safe drinking-water", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Uso de aparatos de bajo consumo de agua", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Potable reuse : Guidance for producing safe drinking-water", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red Pública", categoria: "Reuso de lodos o aguas residuales", titulo: "Potable reuse : Guidance for producing safe drinking-water", img: "Potable reuse : Guidance for producing safe drinking-water", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
+            
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Suministro de agua en Tanques cisterna", titulo: "Water trucking", img: "FICHA 37", link: "https://drive.google.com/file/d/1sdUbslNu_u2h6qF8kY2IfNzHOQWTrnu9/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Micromedición", titulo: "Agua y Saneamiento: nuevos paradigmas", img: "Agua y Saneamiento: en búsqueda de nuevos paradigmas para las Américas", link: "https://iris.paho.org/bitstream/handle/10665.2/51544/9789275116692_spa.pdf" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave Pública con desinfección centralizada", titulo: "Hipoclorador por goteo de carga constante", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+
+            // --- URBANA -> AGUA SUFICIENTE -> SUBTERRANEA ---
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Sistema de bombeo con tratamiento", img: "FICHAS 4", link: "https://drive.google.com/file/d/1IAu56An3N2wvgeDS20zUmy1E8lfq9ura/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Miniacueducto por bombeo (MAB)", img: "FICHA 6", link: "https://drive.google.com/file/d/1Le_GFTsSDlHR7aPykmM7K1nHILIZnCsT/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Módulo de abastecimiento de agua", img: "FICHA 7", link: "https://drive.google.com/file/d/1_OgfmFDETe6bHfHuAmdCX06tyeCdZy9E/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Bombas manuales", img: "FICHA 13", link: "https://drive.google.com/file/d/1dsTyi16BItQ8ULVKfK5IZOm_7lCZUEI0/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Bombas con paneles solares", img: "FICHA 14", link: "https://drive.google.com/file/d/1pR8RCLxNBHzeMrQZCTwGHDdi4t61JYZW/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Bomba manual multifamiliar eólica", img: "FICHA 15", link: "https://drive.google.com/file/d/1HOfP9X_ZYLyYUPbEQbughAnNO3YYzbc0/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Pozos perforados", img: "FICHA 17", link: "https://drive.google.com/file/d/1ebHMd-DYOrDkHI22lUYcth9LNUkLWiA9/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Pozos a tajo abierto", img: "FICHA 18", link: "https://drive.google.com/file/d/1U5x4PCmBNsyiY85R2INCAdbPOo0uZfvu/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Sistema de tratamiento Cloración centralizada", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Sistema de tratamiento Cloración centralizada", titulo: "Hipoclorador por goteo de carga constante", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Sistema de tratamiento Cloración centralizada", titulo: "Sistemas automatizados (venturi)", img: "FICHA 33", link: "https://drive.google.com/file/d/1056gcG4jQJsJsT1wtDJIEqVR6FltysQN/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Sistema de tratamiento Cloración centralizada", titulo: "Dosificador de cloro con bomba", img: "FICHA 34", link: "https://drive.google.com/file/d/1eswqWZIeh6iPF0FEI1YNQyixexUjpdu9/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Por goteo con tabletas", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Planta de Tratamiento apropiada", titulo: "Planta potabilizadora compacta", img: "Ficha 35", link: "https://drive.google.com/file/d/1ksB3TCEoTxZwT04snvQ_kWlLyS7YNFui/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Micromedición", titulo: "Agua y Saneamiento: nuevos paradigmas", img: "Agua y Saneamiento: en búsqueda de nuevos paradigmas para las Américas", link: "https://iris.paho.org/bitstream/handle/10665.2/51544/9789275116692_spa.pdf" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Tratamiento domiciliario (TANDAS)", img: "Ficha 38", link: "https://drive.google.com/file/d/1cM9d0fFs2YDvMLp5RKj9eHffd4XlgPYV/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtro lento de arena", img: "Ficha 39", link: "https://drive.google.com/file/d/10GtVxEMHAOMejKaSMZYOXHSEKGMgbGzU/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtrón", img: "Ficha 41", link: "https://drive.google.com/file/d/1Qg_we7trLItx_6b6g0MMuyTwCGocizmo/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtro de cerámica", img: "Ficha 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Sedimentación", img: "Ficha 43", link: "https://drive.google.com/file/d/1TA33jwR4PP7rCvNOLptvam2rmQ5hynSt/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Cloración (líquido/sólido)", img: "Ficha 44", link: "https://drive.google.com/file/d/12vigbTIs0Y5Fr5bze_PIBWP11z_n0tl3/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Biofiltro de arena", img: "Ficha 45", link: "https://drive.google.com/file/d/1QK7IpO7xqc25yTJV_YSfPlxG9bjZfK0X/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtro de carbón activado", img: "Ficha 46", link: "https://drive.google.com/file/d/1aHxBCJLbOVj1bXPL4cIOPOQIVaY0WkVQ/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Esterilizador de luz ultravioleta", img: "Ficha 47", link: "https://drive.google.com/file/d/1rfPNBcZEUHoYJn9ZR5U0YTeq5RShOWbF/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Ecofiltro", img: "Ficha 48", link: "https://drive.google.com/file/d/1KHXY92cDCcP66biivDzhX1HYV2IY5-9_/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtros artesanal de grava, arena, carbón y algodón", img: "Ficha 49", link: "https://drive.google.com/file/d/1rXqDqnVcAMzYi-uLl3wEXGeMhZhQ-EAT/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtros Lifestraw® Community", img: "Ficha 50", link: "https://drive.google.com/file/d/1567a5XGjWkHYNeJNHgidBuQShBNklgPc/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Ebullición", img: "Ficha 51", link: "https://drive.google.com/file/d/1MGcvY58OMaYYQyWCmrQ28MnIZT8PpwsG/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Llave pública con desinfección centralizada", titulo: "Hipoclorador por goteo", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Con Red Pública", categoria: "Sensores consumo inteligente", titulo: "Potable reuse: Guidance", img: "Potable reuse : Guidance for producing safe drinking-water", link: "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content" },
+            
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Sistema de bombeo con tratamiento", img: "FICHAS 4", link: "https://drive.google.com/file/d/1IAu56An3N2wvgeDS20zUmy1E8lfq9ura/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Miniacueducto por bombeo (MAB)", img: "FICHA 6", link: "https://drive.google.com/file/d/1Le_GFTsSDlHR7aPykmM7K1nHILIZnCsT/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Módulo de abastecimiento de agua", img: "FICHA 7", link: "https://drive.google.com/file/d/1_OgfmFDETe6bHfHuAmdCX06tyeCdZy9E/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Bombas manuales", img: "FICHA 13", link: "https://drive.google.com/file/d/1dsTyi16BItQ8ULVKfK5IZOm_7lCZUEI0/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Bombas con paneles solares", img: "FICHA 14", link: "https://drive.google.com/file/d/1pR8RCLxNBHzeMrQZCTwGHDdi4t61JYZW/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Bomba manual multifamiliar eólica", img: "FICHA 15", link: "https://drive.google.com/file/d/1HOfP9X_ZYLyYUPbEQbughAnNO3YYzbc0/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Pozos perforados", img: "FICHA 17", link: "https://drive.google.com/file/d/1ebHMd-DYOrDkHI22lUYcth9LNUkLWiA9/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Bombeo motorizado, solar o manual", titulo: "Pozos a tajo abierto", img: "FICHA 18", link: "https://drive.google.com/file/d/1U5x4PCmBNsyiY85R2INCAdbPOo0uZfvu/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Tratamiento domiciliario (TANDAS)", img: "Ficha 38", link: "https://drive.google.com/file/d/1cM9d0fFs2YDvMLp5RKj9eHffd4XlgPYV/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtro lento de arena", img: "Ficha 39", link: "https://drive.google.com/file/d/10GtVxEMHAOMejKaSMZYOXHSEKGMgbGzU/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtrón", img: "Ficha 41", link: "https://drive.google.com/file/d/1Qg_we7trLItx_6b6g0MMuyTwCGocizmo/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtro de cerámica", img: "Ficha 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Sedimentación", img: "Ficha 43", link: "https://drive.google.com/file/d/1TA33jwR4PP7rCvNOLptvam2rmQ5hynSt/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Cloración (líquido/sólido)", img: "Ficha 44", link: "https://drive.google.com/file/d/12vigbTIs0Y5Fr5bze_PIBWP11z_n0tl3/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Biofiltro de arena", img: "Ficha 45", link: "https://drive.google.com/file/d/1QK7IpO7xqc25yTJV_YSfPlxG9bjZfK0X/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtro de carbón activado", img: "Ficha 46", link: "https://drive.google.com/file/d/1aHxBCJLbOVj1bXPL4cIOPOQIVaY0WkVQ/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Esterilizador de luz ultravioleta", img: "Ficha 47", link: "https://drive.google.com/file/d/1rfPNBcZEUHoYJn9ZR5U0YTeq5RShOWbF/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Ecofiltro", img: "Ficha 48", link: "https://drive.google.com/file/d/1KHXY92cDCcP66biivDzhX1HYV2IY5-9_/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtros artesanal de grava, arena, carbón y algodón", img: "Ficha 49", link: "https://drive.google.com/file/d/1rXqDqnVcAMzYi-uLl3wEXGeMhZhQ-EAT/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtros Lifestraw® Community", img: "Ficha 50", link: "https://drive.google.com/file/d/1567a5XGjWkHYNeJNHgidBuQShBNklgPc/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Ebullición", img: "Ficha 51", link: "https://drive.google.com/file/d/1MGcvY58OMaYYQyWCmrQ28MnIZT8PpwsG/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Filtro de Barro con arena", titulo: "Filtro lento de arena", img: "Ficha 39", link: "https://drive.google.com/file/d/10GtVxEMHAOMejKaSMZYOXHSEKGMgbGzU/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Filtro de Carbón activado", titulo: "Filtro de carbón activado", img: "Ficha 46", link: "https://drive.google.com/file/d/1aHxBCJLbOVj1bXPL4cIOPOQIVaY0WkVQ/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Subterránea", abastecimiento: "Pozo Perforado", distribucion: "Sin Red Pública", categoria: "Micromedición", titulo: "Agua y Saneamiento: en búsqueda de nuevos paradigmas", img: "Agua y Saneamiento: en búsqueda de nuevos paradigmas para las Américas", link: "https://iris.paho.org/bitstream/handle/10665.2/51544/9789275116692_spa.pdf" },
+
+            // --- URBANA -> AGUA SUFICIENTE -> AGUA LLUVIA ---
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Agua Lluvia", abastecimiento: "Sistema de Captación en techos", distribucion: "Sin Red pública", categoria: "Sistemas comunitarios de agua lluvia con filtración centralizada", titulo: "Cosecha de agua lluvia en techos", img: "Ficha 9", link: "https://drive.google.com/file/d/1WBJYh7vZse6M-QKGqlUzQn8Bb14LZIox/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Agua Lluvia", abastecimiento: "Sistema de Captación en techos", distribucion: "Sin Red pública", categoria: "Sistemas comunitarios de agua lluvia con filtración centralizada", titulo: "Cosecha de agua lluvia en estanques de tierra", img: "Ficha 10", link: "https://drive.google.com/file/d/1DzIPuYw7CfElWGzEuthkhAq3CmjVYFYS/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Agua Lluvia", abastecimiento: "Sistema de Captación en techos", distribucion: "Sin Red pública", categoria: "Sistemas comunitarios de agua lluvia con filtración centralizada", titulo: "Hipoclorador por goteo de carga constante de doble recipiente", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Agua Lluvia", abastecimiento: "Sistema de Captación en techos", distribucion: "Sin Red pública", categoria: "Llaves publicas", titulo: "Hipoclorador por goteo de carga constante de doble recipiente", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", fuente: "Agua Lluvia", abastecimiento: "Sistema de Captación en techos", distribucion: "Sin Red pública", categoria: "Tanques de almacenamiento seguro domiciliarios", titulo: "Tratamiento de agua a nivel domiciliario y almacenamiento seguro (TANDAS)", img: "Ficha 38", link: "https://drive.google.com/file/d/1cM9d0fFs2YDvMLp5RKj9eHffd4XlgPYV/view" },
+
+            // --- URBANA -> ESCASEZ DE AGUA (NUEVOS DATOS) ---
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Tratamiento de agua a nivel domiciliario y almacenamiento seguro (TANDAS)", img: "FICHA 38", link: "https://drive.google.com/file/d/1cM9d0fFs2YDvMLp5RKj9eHffd4XlgPYV/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtro lento de arena a nivel domiciliario", img: "FICHA 39", link: "https://drive.google.com/file/d/10GtVxEMHAOMejKaSMZYOXHSEKGMgbGzU/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtrón", img: "FICHA 41", link: "https://drive.google.com/file/d/1Qg_we7trLItx_6b6g0MMuyTwCGocizmo/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtro de cerámica (solo)", img: "FICHA 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Sedimentación (almacenamiento o tres recipientes)", img: "FICHA 43", link: "https://drive.google.com/file/d/1TA33jwR4PP7rCvNOLptvam2rmQ5hynSt/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Cloración mediante cloro líquido o sólido", img: "FICHA 44", link: "https://drive.google.com/file/d/12vigbTIs0Y5Fr5bze_PIBWP11z_n0tl3/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Biofiltro de arena", img: "FICHA 45", link: "https://drive.google.com/file/d/1QK7IpO7xqc25yTJV_YSfPlxG9bjZfK0X/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtro de carbón activado", img: "FICHA 46", link: "https://drive.google.com/file/d/1aHxBCJLbOVj1bXPL4cIOPOQIVaY0WkVQ/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Esterilizador de luz ultravioleta", img: "FICHA 47", link: "https://drive.google.com/file/d/1rfPNBcZEUHoYJn9ZR5U0YTeq5RShOWbF/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Ecofiltro", img: "FICHA 48", link: "https://drive.google.com/file/d/1KHXY92cDCcP66biivDzhX1HYV2IY5-9_/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtros artesanal de grava, arena, carbón y algodón", img: "FICHA 49", link: "https://drive.google.com/file/d/1rXqDqnVcAMzYi-uLl3wEXGeMhZhQ-EAT/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Filtros Lifestraw® Community", img: "FICHA 50", link: "https://drive.google.com/file/d/1567a5XGjWkHYNeJNHgidBuQShBNklgPc/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar", titulo: "Ebullición", img: "FICHA 51", link: "https://drive.google.com/file/d/1MGcvY58OMaYYQyWCmrQ28MnIZT8PpwsG/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Control de Agua no contabilizada", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Cloración por goteo", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Ebullición", titulo: "Ebullición", img: "FICHA 51", link: "https://drive.google.com/file/d/1MGcvY58OMaYYQyWCmrQ28MnIZT8PpwsG/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Con Red pública", categoria: "Luz Ultravioleta", titulo: "Esterilizador de luz ultravioleta", img: "FICHA 47", link: "https://drive.google.com/file/d/1rfPNBcZEUHoYJn9ZR5U0YTeq5RShOWbF/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Pilas públicas", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Pilas públicas", titulo: "Hipoclorador por goteo de carga constante", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Pilas públicas", titulo: "Sistema de gravedad con tratamiento", img: "FICHA 2", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Pilas públicas", titulo: "Miniacueducto por gravedad (MAG)", img: "FICHA 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Pilas públicas", titulo: "Sistema de bombeo con tratamiento", img: "FICHA 4", link: "https://drive.google.com/file/d/1IAu56An3N2wvgeDS20zUmy1E8lfq9ura/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave pública", titulo: "Miniacueducto por bombeo (MAB)", img: "FICHA 6", link: "https://drive.google.com/file/d/1Le_GFTsSDlHR7aPykmM7K1nHILIZnCsT/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave pública", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave pública", titulo: "Hipoclorador por goteo de carga constante", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave pública", titulo: "Sistema de gravedad con tratamiento", img: "FICHA 2", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave pública", titulo: "Miniacueducto por gravedad (MAG)", img: "FICHA 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave pública", titulo: "Sistema de bombeo con tratamiento", img: "FICHA 4", link: "https://drive.google.com/file/d/1IAu56An3N2wvgeDS20zUmy1E8lfq9ura/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Llave pública", titulo: "Miniacueducto por bombeo (MAB)", img: "FICHA 6", link: "https://drive.google.com/file/d/1Le_GFTsSDlHR7aPykmM7K1nHILIZnCsT/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Bombeo Manual", titulo: "Bombas manuales", img: "FICHA 13", link: "https://drive.google.com/file/d/1dsTyi16BItQ8ULVKfK5IZOm_7lCZUEI0/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Bombeo solar", titulo: "Módulo de abastecimiento de agua con paneles solares", img: "FICHA 7", link: "https://drive.google.com/file/d/1_OgfmFDETe6bHfHuAmdCX06tyeCdZy9E/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Cloración centralizada por goteo con tabletas", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Cloración centralizada por goteo con tabletas", titulo: "Hipoclorador por goteo de carga constante", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Cloración centralizada por goteo con tabletas", titulo: "Sistemas automatizados de cloración", img: "FICHA 33", link: "https://drive.google.com/file/d/1056gcG4jQJsJsT1wtDJIEqVR6FltysQN/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Cloración centralizada por goteo con tabletas", titulo: "Dosificador de cloro con bomba eléctrica", img: "FICHA 34", link: "https://drive.google.com/file/d/1eswqWZIeh6iPF0FEI1YNQyixexUjpdu9/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Tratamiento de agua a nivel domiciliario y almacenamiento seguro (TANDAS)", img: "FICHA 38", link: "https://drive.google.com/file/d/1cM9d0fFs2YDvMLp5RKj9eHffd4XlgPYV/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtro lento de arena a nivel domiciliario", img: "FICHA 39", link: "https://drive.google.com/file/d/10GtVxEMHAOMejKaSMZYOXHSEKGMgbGzU/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtrón", img: "FICHA 41", link: "https://drive.google.com/file/d/1Qg_we7trLItx_6b6g0MMuyTwCGocizmo/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtro de cerámica (solo)", img: "FICHA 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Sedimentación", img: "FICHA 43", link: "https://drive.google.com/file/d/1TA33jwR4PP7rCvNOLptvam2rmQ5hynSt/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Cloración mediante cloro líquido o sólido", img: "FICHA 44", link: "https://drive.google.com/file/d/12vigbTIs0Y5Fr5bze_PIBWP11z_n0tl3/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Biofiltro de arena", img: "FICHA 45", link: "https://drive.google.com/file/d/1QK7IpO7xqc25yTJV_YSfPlxG9bjZfK0X/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtro de carbón activado", img: "FICHA 46", link: "https://drive.google.com/file/d/1aHxBCJLbOVj1bXPL4cIOPOQIVaY0WkVQ/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Esterilizador de luz ultravioleta", img: "FICHA 47", link: "https://drive.google.com/file/d/1rfPNBcZEUHoYJn9ZR5U0YTeq5RShOWbF/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Ecofiltro", img: "FICHA 48", link: "https://drive.google.com/file/d/1KHXY92cDCcP66biivDzhX1HYV2IY5-9_/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtros artesanal de grava, arena, carbón y algodón", img: "FICHA 49", link: "https://drive.google.com/file/d/1rXqDqnVcAMzYi-uLl3wEXGeMhZhQ-EAT/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Filtros Lifestraw® Community", img: "FICHA 50", link: "https://drive.google.com/file/d/1567a5XGjWkHYNeJNHgidBuQShBNklgPc/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Superficial", abastecimiento: "Gravedad / bombeo", distribucion: "Sin Red Pública", categoria: "Almacenamiento seguro en el hogar", titulo: "Ebullición", img: "FICHA 51", link: "https://drive.google.com/file/d/1MGcvY58OMaYYQyWCmrQ28MnIZT8PpwsG/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Pilas públicas", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Pilas públicas", titulo: "Hipoclorador por goteo de carga constante de doble recipiente", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Pilas públicas", titulo: "Sistema de gravedad con tratamiento", img: "FICHA 2", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Pilas públicas", titulo: "Miniacueducto por gravedad (MAG)", img: "FICHA 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Pilas públicas", titulo: "Sistema de bombeo con tratamiento", img: "FICHA 4", link: "https://drive.google.com/file/d/1IAu56An3N2wvgeDS20zUmy1E8lfq9ura/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Llave pública", titulo: "Miniacueducto por bombeo (MAB)", img: "FICHA 6", link: "https://drive.google.com/file/d/1Le_GFTsSDlHR7aPykmM7K1nHILIZnCsT/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Llave pública", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Llave pública", titulo: "Hipoclorador por goteo de carga constante de doble recipiente", img: "FICHA 32", link: "https://drive.google.com/file/d/1tnwSLiag61UnxKvRHUk9lpZBckGsEK9P/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Llave pública", titulo: "Sistema de gravedad con tratamiento", img: "FICHA 2", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Llave pública", titulo: "Miniacueducto por gravedad (MAG)", img: "FICHA 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Llave pública", titulo: "Sistema de bombeo con tratamiento", img: "FICHA 4", link: "https://drive.google.com/file/d/1IAu56An3N2wvgeDS20zUmy1E8lfq9ura/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Llave pública", titulo: "Miniacueducto por bombeo (MAB)", img: "FICHA 6", link: "https://drive.google.com/file/d/1Le_GFTsSDlHR7aPykmM7K1nHILIZnCsT/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Sistema de gravedad con tratamiento", img: "FICHA 2", link: "https://drive.google.com/file/d/1TRQk0tZQDsWjtwocjcr9xciB17DY0w2p/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Cosecha de agua lluvia en estanques de tierra", img: "FICHA 10", link: "https://drive.google.com/file/d/1DzIPuYw7CfElWGzEuthkhAq3CmjVYFYS/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Reservorios", img: "FICHA 20", link: "https://drive.google.com/file/d/1fR4M67Oj5lEyDEuRfOjMi5gEFqgSQcfc/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Filtración lenta con arena", img: "FICHA 21", link: "https://drive.google.com/file/d/1mn3xW91c93VEYQKQvAZgMZHNTq0amlzU/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Filtro rápido de arena", img: "FICHA 22", link: "https://drive.google.com/file/d/10uP30mjUSfKZe4d-fu1sP3VnwiIyMr51/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Filtro de cerámica (solo)", img: "FICHA 42", link: "https://drive.google.com/file/d/1DiaAHkDnsa5jAkyjGL59vVd14iL1glik/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Miniacueducto por gravedad (MAG)", img: "FICHA 5", link: "https://drive.google.com/file/d/1baybGSVE6qL_zGe0p6AopRg1SuNHXdOk/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Plantas de alta eficiencia y bajo consumo energético", titulo: "Planta potabilizadora compacta o modular", img: "FICHA 35", link: "https://drive.google.com/file/d/1ksB3TCEoTxZwT04snvQ_kWlLyS7YNFui/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro , cerámica", titulo: "Filtrón", img: "FICHA 41", link: "https://drive.google.com/file/d/1Qg_we7trLItx_6b6g0MMuyTwCGocizmo/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Filtro de Carbón activado", titulo: "Filtro de carbón activado", img: "FICHA 46", link: "https://drive.google.com/file/d/1aHxBCJLbOVj1bXPL4cIOPOQIVaY0WkVQ/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Biofiltro de Arena", titulo: "Biofiltro de arena", img: "FICHA 45", link: "https://drive.google.com/file/d/1QK7IpO7xqc25yTJV_YSfPlxG9bjZfK0X/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Biofiltro de Arena", titulo: "Filtros artesanal de grava, arena, carbón y algodón", img: "FICHA 49", link: "https://drive.google.com/file/d/1rXqDqnVcAMzYi-uLl3wEXGeMhZhQ-EAT/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Cloración por goteo", titulo: "Hipoclorador por goteo con flotador", img: "FICHA 31", link: "https://drive.google.com/file/d/1f04C0VQmqDN7TvxUCQcMpOpKSa-TfdXY/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Ebullición", titulo: "Ebullición", img: "FICHA 51", link: "https://drive.google.com/file/d/1MGcvY58OMaYYQyWCmrQ28MnIZT8PpwsG/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Desinfección Solar", titulo: "SODIS - Pasteurización solar", img: "FICHA 40", link: "https://drive.google.com/file/d/1lINwCZ5QIbhDVzoBlHvqeDzrdSmpMak0/view?usp=drive_open" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", fuente: "Subterránea", abastecimiento: "Pozo Perforado / Pozo Excavado", distribucion: "Con Red pública", categoria: "Luz Ultravioleta", titulo: "Esterilizador de luz ultravioleta", img: "FICHA 47", link: "https://drive.google.com/file/d/1rfPNBcZEUHoYJn9ZR5U0YTeq5RShOWbF/view" }
+        ];
+
+        // 3. ESTRUCTURA DEL ÁRBOL (COMPLETA Y ACTUALIZADA)
+        // Nota: Las hojas se han normalizado a `final: true` para usar la base de datos.
         const decisionTree = {
             id: 'root',
             question: "Ámbito de Intervención WASH",
@@ -166,53 +392,53 @@
                                 next: {
                                     question: "Tipo de Fuente",
                                     options: [
-                                        { 
-                                            label: "Superficial", 
+                                        {
+                                            label: "Superficial",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "gravedad / bombeo", 
+                                                    {
+                                                        label: "Gravedad / bombeo",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Plantas de tratamiento de alta eficiencia y bajo consumo energético. Micromedición. Sensores de consumo inteligentes. Uso de aparatos de bajo consumo de agua (inodoros, duchas, lavadoras). Reuso de lodos o aguas residuales (riego, recarga de acuíferos, materia prima en ladrillos etc.)" },
-                                                                { label: "Sin Red Pública", result: "Suministro de agua en Tanques cisterna o tanques comunitarios con almacenamiento de agua potable. Micromedición. Llave Pública con desinfección centralizada" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        { 
-                                            label: "Subterránea", 
+                                        {
+                                            label: "Subterránea",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Pozo Perforado", 
+                                                    {
+                                                        label: "Pozo Perforado",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Bombeo motorizado, solar o manual. Sistema de tratamiento Cloración centralizada por goteo con tabletas. Planta de Tratamiento apropiada. Micromedición. Almacenamiento seguro en el hogar. Llave pública. Sensores consumo inteligente" },
-                                                                { label: "Sin Red Pública", result: "Bombeo motorizado, solar o manual. Tratamiento de Agua a Nivel Domiciliar: Filtros de Barro con arena. Filtros con Carbón activado. Micromedición" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        { 
-                                            label: "Agua Lluvia", 
+                                        {
+                                            label: "Agua Lluvia",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Sistema de Captación en techos", 
+                                                    {
+                                                        label: "Sistema de Captación en techos",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Sin Red pública", result: "Sistemas comunitarios de agua de lluvia con filtración centralizada. Llaves Públicas. Tanques de almacenamiento seguro domiciliarios." }
+                                                                { label: "Sin Red pública", final: true }
                                                             ]
                                                         }
                                                     }
@@ -228,60 +454,38 @@
                                 next: {
                                     question: "Tipo de Fuente",
                                     options: [
-                                        { 
-                                            label: "SuperfiCial", 
+                                        {
+                                            label: "Superficial",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "gravedad / bombeo", 
+                                                    {
+                                                        label: "Gravedad / bombeo",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red pública", result: "Pilas públicas. Llave pública. Plantas de tratamiento de alta eficiencia y bajo consumo energético. Desaladoras. Sensores remotos de control. Tratamiento de Agua a nivel domiciliar. Control de agua no contabilizada. Cloración por goteo. Ebullución. Luz ultravioleta" },
-                                                                { label: "Sin Red Pública", result: "Pilas públicas. Llave pública. Bombeo manual, bombeo solar. Cloración centralizada por goteo con tabletas. Almacenamiento seguro en el hogar" }
-
+                                                                { label: "Con Red pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        { 
-                                            label: "Subterránea", 
+                                        {
+                                            label: "Subterránea",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Pozo Perforado / Pozo Excavado", 
+                                                    {
+                                                        label: "Pozo Perforado / Pozo Excavado",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Pilas públicas. Llave pública. Plantas de alta eficiencia y bajo consumo energético. Tratamiento de agua a Nivel Domiciliar: Filtro de Barro, cerámica. Filtro de Carbón activado. Biofiltro de Arena. Cloración por goteo. Ebullición Desinfección solar. Luz Ultravioleta" },
-                                                                { label: "Sin Red Pública", result: "Suministro de agua en tanques cisterna a tanques comunitarios de almacenamiento de agua potable. Micromedición. Llave Pública con desinfección centralizada. Tratamiento de Agua a nivel domiciliar" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        { 
-                                            label: "Agua Lluvia", 
-                                            next: {
-                                                question: "Tipo de Abastecimiento",
-                                                options: [
-                                                    { 
-                                                        label: "Sistema de Captación en techos", 
-                                                        next: {
-                                                            question: "Distribución",
-                                                            options: [
-                                                                { label: "Sin Red pública", result: "Filtración: Biofiltro de Arena. Almacenamiento seguro en el hogar.  Atrapanieblas" }
-                                                            ]
-                                                        }
-                                                    },
-                                                    { 
-                                                        label: "Tecnología Apropiada (Directo de Agua Lluvia)", 
-                                                        result: "Filtración - Biofiltro de Arena. Almacenamiento seguro en el hogar. Atrapanieblas" 
                                                     }
                                                 ]
                                             }
@@ -304,38 +508,59 @@
                                 next: {
                                     question: "Tipo de Fuente",
                                     options: [
-                                        { 
-                                            label: "Superficial", 
+                                        {
+                                            label: "Superficial",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "gravedad / bombeo", 
+                                                    {
+                                                        label: "Gravedad / bombeo",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Planta de Tratamiento apropiada - Plantas tipo FIME, AGUA CLARA. Cloración centralizada: por goteo con tabletas. Uso de aparatos de bajo consumo de agua: inodoros, duchas" },
-                                                                { label: "Sin Red Pública", result: "Pilas públicas. Llave pública. Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro, cerámica. Tratamiento de Agua a Nivel Domiciliar: Filtro de Carbón activado. Biofiltro de Arena. Cloración por goteo. Ebullición. Desinfección Solar. Luz Ultravioleta" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        { 
-                                            label: "Subterránea", 
+                                        {
+                                            label: "Subterránea",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Pozo Perforado / Pozo Excavado", 
+                                                    {
+                                                        label: "Pozo Perforado / Pozo Excavado",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Bombeo motorizado, solar, ariete hidráulico o manual. Llave pública. Cloración centralizad: por goteo con tabletas. Planta de Tratamiento apropiada. Almacenamiento seguro en el hogar" },
-                                                                { label: "Sin Red Pública", result: "Bombeo motorizado, solar, ariete hidráulico o manual. Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro con arena. Tratamiento de Agua a Nivel Domiciliar: Filtro de Carbón activado" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            label: "Agua Lluvia",
+                                            next: {
+                                                question: "Tipo de Abastecimiento",
+                                                options: [
+                                                    {
+                                                        label: "Sistema de Recolección en techos / Captación de agua de niebla",
+                                                        next: {
+                                                            question: "Distribución",
+                                                            options: [
+                                                                { label: "Sin Red pública", final: true }
+                                                            ]
+                                                        }
+                                                    },
+                                                    {
+                                                        label: "Tecnología Apropiada (Directo de Agua Lluvia)",
+                                                        final: true
                                                     }
                                                 ]
                                             }
@@ -349,53 +574,36 @@
                                 next: {
                                     question: "Tipo de Fuente",
                                     options: [
-                                        { 
-                                            label: "Superficial", 
+                                        {
+                                            label: "Superficial",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "gravedad / bombeo", 
+                                                    {
+                                                        label: "Gravedad / bombeo",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Bombeo motorizado, solar, ariete hidráulico o manual. Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro con arena. Tratamiento de Agua a Nivel Domiciliar: Filtro de Carbón activado" },
-                                                                { label: "Sin Red Pública", result: "Pilas públicas. Llave pública. Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro, cerámica y Filtro de Carbón activado. Biofiltro de Arena. Cloración por goteo. Ebullición. Desinfección Solar. Luz Ultravioleta" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        { 
-                                            label: "Subterránea", 
+                                        {
+                                            label: "Subterránea",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Pozo Perforado / Pozo Excavado", 
+                                                    {
+                                                        label: "Pozo Perforado / Pozo Excavado",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Bombeo Manual. Cloración centralizada por goteo con tabletas. Almacenamiento seguro en el hogar." },
-                                                                { label: "Sin Red Pública", result: "Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro, cerámica y Filtro de Carbón activado. Biofiltro de Arena. Cloración por goteo. Ebullición. Desinfección Solar. Luz Ultravioleta" }
-                                                            ]
-                                                        }
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        { 
-                                            label: "Agua Lluvia", 
-                                            next: {
-                                                question: "Tipo de Abastecimiento",
-                                                options: [
-                                                    { 
-                                                        label: "Sistema de Recolección en techos / Captación de agua de niebla", 
-                                                        next: {
-                                                            question: "Distribución",
-                                                            options: [
-                                                                { label: "Sin Red pública", result: "Filtración: Biofiltro de Arena. Almacenamiento seguro en el hogar. Atrapa nieblas. Cosecha de Agua Lluvia en estanques" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
@@ -420,36 +628,53 @@
                                 next: {
                                     question: "Tipo de Fuente",
                                     options: [
-                                        { 
-                                            label: "Superficial", 
+                                        {
+                                            label: "Superficial",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "gravedad / bombeo", 
+                                                    {
+                                                        label: "Gravedad / bombeo",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red pública", result: "Cloración centralizada: por goteo con tabletas. Planta de Tratamiento apropiada FME, ÁGILA FME. Llave pública" },
-                                                                { label: "Sin Red Pública", result: "Tratamiento de Agua a Nivel Domiciliar: Filtro de cerámica y Filtro de Carbón activado. Biofiltro de Arena. Cloración por goteo. Ebullición Desinfección Solar. Luz Ultravioleta" }
+                                                                { label: "Con Red pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        { 
-                                            label: "Subterránea", 
+                                        {
+                                            label: "Subterránea",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Pozo Perforado / Pozo Excavado", 
+                                                    {
+                                                        label: "Pozo Perforado / Pozo Excavado",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Bombeo motorizado o manual. Cloración centralizada: por goteo con tabletas. Planta de Tratamiento apropiada. Almacenamiento seguro en el hogar. Llave pública" },
-                                                                { label: "Sin Red Pública", result: "Bombeo motorizado o manual. Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro con arena, Filtro de Carbón activado y Filtro de arena" }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            label: "Agua Lluvia",
+                                            next: {
+                                                question: "Tipo de Abastecimiento",
+                                                options: [
+                                                    {
+                                                        label: "Sistema de Recolección en techos / Captación de agua de niebla",
+                                                        next: {
+                                                            question: "Distribución",
+                                                            options: [
+                                                                { label: "Sin Red pública", final: true }
                                                             ]
                                                         }
                                                     }
@@ -465,53 +690,36 @@
                                 next: {
                                     question: "Tipo de Fuente",
                                     options: [
-                                        { 
-                                            label: "Superficial", 
+                                        {
+                                            label: "Superficial",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Fuente protegida con acarreo", 
+                                                    {
+                                                        label: "Fuente protegida con acarreo",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red pública", result: "Cloración centralizada por goteo con tabletas. Planta de Tratamiento apropiada." },
-                                                                { label: "Sin Red pública", result: "Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro, cerámica y Filtro de Carbón activado. Biofiltro de Arena. Cloración por goteo. Ebullición. Desinfección Solar. Luz Ultravioleta" }
+                                                                { label: "Con Red pública", final: true },
+                                                                { label: "Sin Red pública", final: true }
                                                             ]
                                                         }
                                                     }
                                                 ]
                                             }
                                         },
-                                        { 
-                                            label: "Subterránea", 
+                                        {
+                                            label: "Subterránea",
                                             next: {
                                                 question: "Tipo de Abastecimiento",
                                                 options: [
-                                                    { 
-                                                        label: "Pozo excavado", 
+                                                    {
+                                                        label: "Pozo excavado",
                                                         next: {
                                                             question: "Distribución",
                                                             options: [
-                                                                { label: "Con Red Pública", result: "Bombeo Manual. Cloración centralizada por goteo con tabletas. Almacenamiento seguro en el hogar." },
-                                                                { label: "Sin Red Pública", result: "Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro con arena. Filtro de Carbón activado. Biofiltro de Arena. Cloración por goteo. Ebullición Desinfección Solar. Luz Ultravioleta" }
-                                                            ]
-                                                        }
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        { 
-                                            label: "Agua Lluvia", 
-                                            next: {
-                                                question: "Tipo de Abastecimiento",
-                                                options: [
-                                                    { 
-                                                        label: "Sistema de Recolección en techos / Captación de agua de niebla", 
-                                                        next: {
-                                                            question: "Distribución",
-                                                            options: [
-                                                                { label: "Sin Red pública", result: "Cosecha de Agua lluvia en estanques. Atrapanieblas. Filtración. Biofiltro de Arena. Almacenamiento seguro en el hogar." }
+                                                                { label: "Con Red Pública", final: true },
+                                                                { label: "Sin Red Pública", final: true }
                                                             ]
                                                         }
                                                     }
@@ -527,7 +735,7 @@
             ]
         };
 
-        // 2. DATOS DE HERRAMIENTAS Y RECURSOS PARA AGUA (UNIFICADOS EN UNA SOLA VARIABLE GLOBAL)
+        // 4. DATOS DE HERRAMIENTAS Y RECURSOS (ACTUALIZADO)
         const toolsData = [
             { ambito: 'URBANA', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
             { ambito: 'URBANA', documento: 'Protocolo para evaluar la situación del agua, el saneamiento y la higiene en establecimientos de salud con atención a la resiliencia al clima', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55724/978927532501_spa.pdf?sequence=1&isAllowed=y' },
@@ -541,7 +749,7 @@
             { ambito: 'URBANA', documento: 'Curso sobre agua, saneamiento, higiene y la resiliencia al clima en establecimientos de salud WASH FIT', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-higiene_establecimientos-salud-WASHFIT' },
             { ambito: 'URBANA', documento: 'Metodologia WASHFIT: Evalucación del Agua, Saneamiento e Higiene en Establecimientos de Salud', enlace: 'https://www.washinhcf.org/wash-fit-espanol/' },
             
-            // Herramientas RURAL CONCENTRADO
+            // RURAL CONCENTRADO
             { ambito: 'RURAL CONCENTRADO', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
             { ambito: 'RURAL CONCENTRADO', documento: 'Animaciones: Dia Mundial de la enfermedades tropicales desatendidas', enlace: 'https://who.canto.global/v/JBSAFSL97F/album/VJIJ5?display=fitView&viewIndex=0&gOrderProp=uploadDate&referenceTo&from=fitView' },
             { ambito: 'RURAL CONCENTRADO', documento: 'Guías para la calidad del agua de consumo humano: pequeños sistemas de abastecimiento de agua - Resumen de orientación', enlace: 'https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/water-safety-planning/sanitary-inspection-packages/24_who_smallsystemses_a4_spanish_wr.pdf?sfvrsn=4f003870_9&download=true' },
@@ -556,7 +764,7 @@
             { ambito: 'RURAL CONCENTRADO', documento: 'Tecnologías convencionales y no convencionales de abastecimiento y tratamiento de agua para poblaciones rurales concentradas', enlace: 'https://drive.google.com/file/d/1dJCJ7AWE90ePr1G06xUK8n4n-oE8Y9rk/view?usp=drive_link' },
             { ambito: 'RURAL CONCENTRADO', documento: 'Guías para la calidad del agua de consumo humano para pequeños sistemas de abastecimiento de agua', enlace: 'https://drive.google.com/file/d/10NWIIxipyryLaN1cWcwy6J48sVVDO5J2/view?usp=drive_link' },
             
-            // Herramientas RURAL DISPERSO
+            // RURAL DISPERSO
             { ambito: 'RURAL DISPERSO', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
             { ambito: 'RURAL DISPERSO', documento: 'Animaciones: Dia Mundial de la enfermedades tropicales desatendidas', enlace: 'https://who.canto.global/v/JBSAFSL97F/album/VJIJ5?display=fitView&viewIndex=0&gOrderProp=uploadDate&referenceTo&from=fitView' },
             { ambito: 'RURAL DISPERSO', documento: 'Guías para la calidad del agua de consumo humano: pequeños sistemas de abastecimiento de agua - Resumen de orientación', enlace: 'https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/water-safety-planning/sanitary-inspection-packages/24_who_smallsystemses_a4_spanish_wr.pdf?sfvrsn=4f003870_9&download=true' },
@@ -568,49 +776,62 @@
             { ambito: 'RURAL DISPERSO', documento: 'Guías para la operación y mantenimiento de reservorios elevados y estaciones de bombeo', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55380/OPSCEPIS05159_spa.pdf?sequence=1&isAllowed=y' },
             { ambito: 'RURAL DISPERSO', documento: 'Curso Virtual: Agua, saneamiento e higiene (WASH) y salud: trabajando juntos', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-e-higiene-wash' },
             { ambito: 'RURAL DISPERSO', documento: 'Metodología WASHFIT: Evalucación del Agua, Saneamiento e Higiene en Establecimientos de Salud', enlace: 'https://www.washinhcf.org/wash-fit-espanol/' },
-            { ambito: 'RURAL DISPERSO', documento: 'Tecnologías convencionales y no convencionales de abastecimiento y tratamiento de agua para poblaciones rurales concentradas', enlace: 'https://drive.google.com/file/d/1dJCJ7AWE90ePr1G06xUK8n4n-oE8Y9rk/view?usp=drive_link' },
+            { ambito: 'RURAL DISPERSO', documento: 'Tecnologías de saneamiento básico y avanzado, y gestión de aguas pluviales convencionales y no convencionales para poblaciones rurales o periurbanas', enlace: 'https://drive.google.com/file/d/1sdRM2VBHMX5Xto4J4VTsLtWIBB2b4eR9/view?usp=drive_link' },
             { ambito: 'RURAL DISPERSO', documento: 'Guías para la calidad del agua de consumo humano para pequeños sistemas de abastecimiento de agua', enlace: 'https://drive.google.com/file/d/10NWIIxipyryLaN1cWcwy6J48sVVDO5J2/view?usp=drive_link' },
         ];
-        
-        // 3. GESTIÓN DEL ESTADO
+
         const container = document.getElementById('decision-container');
         const restartButton = document.getElementById('restart-button');
-        const toolsBox = document.getElementById('tools-box'); 
-        
-        // Almacena el camino de decisiones tomadas: [{ question: string, selection: string, nextStep: Object }]
-        let currentPath = []; 
+        const toolsBox = document.getElementById('tools-box');
 
-        /**
-         * Determina el paso actual del árbol en base al camino recorrido.
-         * @returns {Object} El nodo (pregunta y opciones) actual a mostrar.
-         */
-        function getCurrentStep() {
-            let step = decisionTree;
-            for (const pathItem of currentPath) {
-                step = pathItem.nextStep;
-            }
-            return step;
+        let currentPath = [];
+
+        // --- LÓGICA DEL MOTOR DE BÚSQUEDA ---
+
+        function buscarResultados(caminoUsuario) {
+            // indices: 0=Ambito, 1=Disponibilidad, 2=Fuente, 3=Abastecimiento, 4=Distribucion
+            if(caminoUsuario.length < 5) return [];
+
+            const ambito = caminoUsuario[0].selection; 
+            const disponibilidad = caminoUsuario[1].selection; 
+            const fuente = caminoUsuario[2].selection;
+            const abastecimiento = caminoUsuario[3].selection;
+            const distribucion = caminoUsuario[4].selection;
+
+            return baseDeDatos.filter(item => {
+                return item.ambito.trim().toLowerCase() === ambito.trim().toLowerCase() &&
+                       item.disponibilidad.trim().toLowerCase() === disponibilidad.trim().toLowerCase() &&
+                       item.fuente.trim().toLowerCase() === fuente.trim().toLowerCase() &&
+                       item.abastecimiento.trim().toLowerCase() === abastecimiento.trim().toLowerCase() &&
+                       item.distribucion.trim().toLowerCase() === distribucion.trim().toLowerCase();
+            });
         }
 
-        /**
-         * Función recursiva para renderizar los nodos del árbol.
-         * @param {number} index El índice del nodo en el camino.
-         * @param {HTMLElement} parentNode El elemento HTML donde se debe inyectar el nodo.
-         */
+        function agruparPorCategoria(items) {
+            const grupos = {};
+            items.forEach(item => {
+                const cat = item.categoria || "Otras Tecnologías";
+                if (!grupos[cat]) {
+                    grupos[cat] = [];
+                }
+                grupos[cat].push(item);
+            });
+            return grupos;
+        }
+
+        // --- RENDERIZADO DEL ÁRBOL ---
+
         function renderNode(index, parentNode) {
             const pathItem = currentPath[index];
             const isRoot = index === 0;
 
-            // 1. Crear el contenedor para el nodo (maneja el margen de indentación)
             const nodeContainer = document.createElement('div');
             nodeContainer.className = `node-container ${isRoot ? 'root-node' : ''}`;
             parentNode.appendChild(nodeContainer);
 
-            // 2. Tarjeta de paso completado
             const completedCard = document.createElement('div');
             completedCard.className = 'completed-card w-full shadow-md';
             completedCard.innerHTML = `
-                <!-- Eliminado: Paso ${index + 1}. -->
                 <p class="text-sm font-bold text-gray-600">${pathItem.question}</p>
                 <p class="text-lg font-extrabold mt-1 flex items-center selection-text">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -621,53 +842,39 @@
             `;
             nodeContainer.appendChild(completedCard);
 
-            // 3. Continuar la recursión o mostrar el paso activo/resultado
             if (index + 1 < currentPath.length) {
                 renderNode(index + 1, nodeContainer);
             } else {
                 const currentStepData = pathItem.nextStep;
-                if (currentStepData.result) {
-                    displayResult(currentStepData.label, currentStepData.result, nodeContainer);
+                // Si es final, buscamos en la base de datos
+                if (currentStepData.final === true) {
+                    displayResult(nodeContainer);
                 } else {
                     renderActiveStep(currentStepData, nodeContainer);
                 }
             }
         }
-        
-        /**
-         * Renderiza la vista completa del árbol (pasos anteriores y el paso actual).
-         * También gestiona la visibilidad del box de herramientas.
-         */
+
         function renderPath() {
             container.innerHTML = '';
             restartButton.classList.add('hidden');
-            toolsBox.classList.add('hidden'); // Ocultar por defecto
-            
-            // Si el camino está vacío, renderizar el paso raíz
+            toolsBox.classList.add('hidden');
+
             if (currentPath.length === 0) {
-                renderActiveStep(decisionTree, container, true); // Pasar 'true' para indicar que es la raíz
+                renderActiveStep(decisionTree, container, true);
             } else {
-                // Si hay historial, iniciar el renderizado recursivo del camino
                 renderNode(0, container);
             }
         }
-        
-        /**
-         * Renderiza el cuadro de pregunta y opciones interactivas para el paso actual.
-         * @param {Object} step El objeto del paso actual.
-         * @param {HTMLElement} parentNode El contenedor donde se debe insertar.
-         * @param {boolean} isRoot Indica si es el primer paso.
-         */
+
         function renderActiveStep(step, parentNode, isRoot = false) {
-            
             const activeContainer = document.createElement('div');
             activeContainer.className = `node-container ${isRoot ? 'root-node' : ''}`;
             parentNode.appendChild(activeContainer);
 
             const activeCard = document.createElement('div');
             activeCard.className = 'active-card w-full transition-all duration-500';
-            
-            // Botón de retroceso, solo visible si NO es el nodo raíz
+
             const backButtonHtml = isRoot ? '' : `
                 <button onclick="goBack()" class="flex items-center text-sm font-semibold mb-4 transition back-button">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -680,12 +887,9 @@
             activeCard.innerHTML = `
                 ${backButtonHtml}
                 <div class="mb-6 p-4 rounded-lg question-box">
-                    <!-- Eliminado: ${currentPath.length + 1}. -->
                     <p class="text-xl font-bold">${step.question}</p>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="options-grid">
-                    <!-- Opciones se insertan aquí -->
-                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="options-grid"></div>
             `;
             activeContainer.appendChild(activeCard);
 
@@ -693,101 +897,111 @@
 
             step.options.forEach(option => {
                 const button = document.createElement('button');
-                // Uso de clases CSS y variables para el estilo
                 button.className = 'option-button w-full px-5 py-3 text-white font-semibold rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-md';
                 button.textContent = option.label;
-                
-                // Al hacer click, agrega el paso al historial y vuelve a renderizar
                 button.onclick = () => handleSelection(option, step.question);
-
                 optionsGrid.appendChild(button);
             });
         }
 
-        /**
-         * Maneja la selección de una opción, actualiza el camino y redibuja.
-         * @param {Object} option La opción seleccionada.
-         * @param {string} previousQuestion La pregunta de la que proviene la opción.
-         */
         function handleSelection(option, previousQuestion) {
-            // Ya no se renderizan las herramientas aquí. Se hará en displayResult.
-
-            // Guardar el paso tomado
             currentPath.push({
                 question: previousQuestion,
                 selection: option.label,
                 nextStep: option.next || option
             });
-            
-            // Redibujar el árbol completo para mostrar el crecimiento
             renderPath();
         }
 
-        /**
-         * Muestra la tecnología apropiada como resultado final y las herramientas.
-         * @param {string} finalSelection El label de la última selección.
-         * @param {string} resultText El texto de la tecnología apropiada.
-         * @param {HTMLElement} parentNode El contenedor donde se debe insertar.
-         */
-        function displayResult(finalSelection, resultText, parentNode) {
+        // --- RENDERIZADO DE RESULTADOS (BASE DE DATOS) ---
+
+        function displayResult(parentNode) {
+            let resultadosEncontrados = buscarResultados(currentPath);
             
+            // Lógica de "Opción Ficticia" si no hay resultados
+            if (resultadosEncontrados.length === 0) {
+                // Creamos un resultado ficticio para que el usuario pueda editarlo luego
+                // o para que la estructura funcione visualmente.
+                resultadosEncontrados = [{
+                    categoria: "Ficha Ficticia (Faltan Datos)",
+                    titulo: "Tecnología No Registrada (Editar Base de Datos)",
+                    img: "placeholder",
+                    link: "#"
+                }];
+            }
+
+            const grupos = agruparPorCategoria(resultadosEncontrados);
+
             const resultContainer = document.createElement('div');
             resultContainer.className = 'node-container mt-4';
             parentNode.appendChild(resultContainer);
-            
-            // Se usa text-sm para los bullets (MODIFICADO)
-            const resultListItems = resultText.split('. ').map(item => item.trim()).filter(item => item.length > 0).map(item => `
-                <li class="p-2 rounded-lg text-sm" style="background-color: var(--color-blue-light); color: var(--color-blue-dark);">${item}</li>
-            `).join('');
+
+            let htmlContent = '';
+
+            for (const [categoria, items] of Object.entries(grupos)) {
+                
+                const cardsHtml = items.map(item => `
+                    <a href="${item.link}" target="_blank" class="group block bg-gray-50 rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-200 hover:border-blue-400">
+                        <div class="aspect-video w-full overflow-hidden relative bg-white border-b border-gray-100">
+                            <img src="${resolverRutaImagen(item.img)}" alt="${item.titulo}" class="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400?text=Sin+Imagen'">
+                        </div>
+                        <div class="p-3">
+                            <p class="text-sm font-bold text-blue-700 flex items-center justify-between leading-snug">
+                                ${item.titulo}
+                                <i data-lucide="external-link" class="w-3 h-3 flex-shrink-0 ml-2"></i>
+                            </p>
+                        </div>
+                    </a>
+                `).join('');
+
+                // Se eliminó el atributo 'open' para que aparezcan cerrados por defecto
+                htmlContent += `
+                    <details class="custom-accordion mb-3 shadow-sm overflow-hidden transition-all open:shadow-md group">
+                        <summary class="flex items-center justify-between cursor-pointer p-4 bg-white hover:bg-blue-50 transition-colors select-none">
+                            <div class="flex items-center gap-3">
+                                <span class="text-base font-semibold leading-tight" style="color: var(--color-focus-blue);">
+                                    ${categoria}
+                                </span>
+                            </div>
+                            <i data-lucide="chevron-down" class="accordion-arrow text-gray-400 w-5 h-5 transition-transform duration-300"></i>
+                        </summary>
+                        <div class="p-4 border-t border-gray-100 bg-slate-50">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                ${cardsHtml}
+                            </div>
+                        </div>
+                    </details>
+                `;
+            }
 
             const finalResultHtml = `
                 <div class="result-card p-6 rounded-xl shadow-xl space-y-4 relative">
-                    <!-- Título modificado a solo "Tecnología Apropiada" -->
                     <p class="text-xl font-extrabold" style="color: var(--color-blue-dark);">
-                        Tecnología Apropiada:
-                        <span class="text-xl font-semibold text-gray-700 block mt-2">
-                           
-                        </span>
+                        Tecnologías Recomendadas:
                     </p>
-                    <div class="h-1 rounded" style="background-color: var(--color-blue-primary);"></div> 
-                    <ul class="list-disc list-inside space-y-0 text-gray-800 ml-4">
-                        ${resultListItems}
-                    </ul>
+                    <div class="h-1 rounded w-full mb-4" style="background-color: var(--color-blue-primary);"></div> 
+                    <div class="mt-4">
+                        ${htmlContent}
+                    </div>
                 </div>
             `;
 
-
-            // 1. Añadir el resultado
             resultContainer.innerHTML = finalResultHtml;
-
-            // 2. Mostrar el botón de Reiniciar
-            restartButton.classList.remove('hidden'); 
+            restartButton.classList.remove('hidden');
             
-            // 3. Renderizar el box de herramientas (¡Nuevo requisito!)
-            // Se toma la primera selección que es el Ámbito (URBANA o RURAL)
-            const ambitoSeleccionado = currentPath.length > 0 ? currentPath[0].selection.toUpperCase() : '';
-            if (ambitoSeleccionado) {
-                 renderToolsBox(ambitoSeleccionado);
+            lucide.createIcons();
+            
+            // Renderizar herramientas basado en el primer paso (Ambito)
+            if (currentPath.length > 0) {
+                const ambitoSeleccionado = currentPath[0].selection.toUpperCase();
+                renderToolsBox(ambitoSeleccionado);
             }
         }
-        
-        /**
-         * Renderiza el box de herramientas filtrado por ámbito.
-         * @param {string} ambito El ámbito seleccionado ('URBANA', 'RURAL CONCENTRADO', o 'RURAL DISPERSO').
-         */
-        function renderToolsBox(ambito) {
-            
-            // El error estaba aquí porque toolsData no se encontró si se usaba `ruralTools`.
-            // Ahora toolsData es la variable global unificada.
-            const filteredTools = toolsData.filter(tool => tool.ambito.toUpperCase() === ambito);
 
-            if (filteredTools.length === 0) {
-                toolsBox.classList.add('hidden');
-                toolsBox.innerHTML = '';
-                return;
-            }
-            
-            // Generar el HTML de las herramientas
+        function renderToolsBox(ambito) {
+            const filteredTools = toolsData.filter(tool => tool.ambito.toUpperCase() === ambito);
+            if (filteredTools.length === 0) return;
+
             const toolsListHtml = filteredTools.map(tool => `
                 <li class="p-3 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition duration-150">
                     <a href="${tool.enlace}" target="_blank" class="text-sm font-medium flex items-start hover:text-blue-700" style="color: var(--color-blue-dark);">
@@ -801,7 +1015,7 @@
 
             toolsBox.innerHTML = `
                 <h2 class="text-2xl font-bold mb-4 pt-4 border-t" style="color: var(--color-focus-blue);">Herramientas y Recursos</h2>
-                <p class="text-sm text-gray-600 mb-4">Los siguientes recursos están disponibles para el ámbito seleccionado (${ambito.toLowerCase()}):</p>
+                <p class="text-sm text-gray-600 mb-4">Los siguientes recursos están disponibles para el ámbito ${ambito.toLowerCase()}:</p>
                 <ul class="space-y-3 p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-inner">
                     ${toolsListHtml}
                 </ul>
@@ -809,33 +1023,23 @@
             toolsBox.classList.remove('hidden');
         }
 
-
-        /**
-         * Retrocede un paso en el historial de decisiones.
-         */
         function goBack() {
             if (currentPath.length > 0) {
-                currentPath.pop(); // Elimina el último paso
-                // Al volver, renderPath ocultará las herramientas si ya no está el resultado final.
-                renderPath(); // Redibuja el árbol
+                currentPath.pop();
+                renderPath();
             }
         }
 
-        /**
-         * Reinicia el árbol de decisiones a la primera pregunta.
-         */
         function restartDecision() {
             currentPath = [];
-            toolsBox.classList.add('hidden'); // Ocultar el box de herramientas al reiniciar
+            toolsBox.classList.add('hidden');
             renderPath();
         }
 
-        // Iniciar la aplicación mostrando el primer paso
         document.addEventListener('DOMContentLoaded', () => {
             renderPath();
         });
     </script>
 </body>
+
 </html>
-
-

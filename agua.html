@@ -194,36 +194,34 @@
         // ==========================================================================
         // CONFIGURACIÓN DE RUTAS
         // ==========================================================================
-        // Usamos la ruta "raw" de GitHub para acceder a las imágenes directamente desde la nube
-        const RUTA_IMAGENES = "https://raw.githubusercontent.com/LCasusoIO/arbol-decision-OPS/main/AGUA/";
-        
-        function resolverRutaImagen(nombreArchivo) {
-                    if (!nombreArchivo) return '';
-                    
-                    // Si ya es un link completo (http...), lo devolvemos tal cual
-                    if (nombreArchivo.startsWith('http') || nombreArchivo.startsWith('https')) {
-                        return nombreArchivo;
-                    }
-        
-                    let nombreLimpio = nombreArchivo.trim();
-        
-                    // CORRECCIÓN: Si el nombre termina en punto (ej: "Ficha 10."), lo quitamos antes de poner .png
-                    if (nombreLimpio.endsWith('.')) {
-                        nombreLimpio = nombreLimpio.slice(0, -1);
-                    }
-        
-                    // Agrega extensión .png si no la tiene
-                    let nombreConExtension = nombreLimpio;
-                    if (!nombreLimpio.toLowerCase().endsWith('.png') && 
-                        !nombreLimpio.toLowerCase().endsWith('.jpg') && 
-                        !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
-                        nombreConExtension = nombreLimpio + ".png";
-                    }
-        
-                    // IMPORTANTE: encodeURIComponent convierte los espacios en %20 para que el navegador los lea bien
-                    return RUTA_IMAGENES + encodeURIComponent(nombreConExtension);
-                }
+        const RUTA_IMAGENES = "https://raw.githubusercontent.com/LCasusoIO/arbol-decision-OPS/refs/heads/main/AGUA/";
 
+        function resolverRutaImagen(nombreArchivo) {
+            if (!nombreArchivo) return '';
+            
+            // Si ya es un link completo (http...), lo devolvemos tal cual
+            if (nombreArchivo.startsWith('http') || nombreArchivo.startsWith('https')) {
+                return nombreArchivo;
+            }
+
+            let nombreLimpio = nombreArchivo.trim();
+
+            // CORRECCIÓN: Si el nombre termina en punto, lo quitamos
+            if (nombreLimpio.endsWith('.')) {
+                nombreLimpio = nombreLimpio.slice(0, -1);
+            }
+
+            // Agrega extensión .png si no la tiene
+            let nombreConExtension = nombreLimpio;
+            if (!nombreLimpio.toLowerCase().endsWith('.png') && 
+                !nombreLimpio.toLowerCase().endsWith('.jpg') && 
+                !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
+                nombreConExtension = nombreLimpio + ".png";
+            }
+
+            // IMPORTANTE: encodeURIComponent convierte los espacios en %20
+            return RUTA_IMAGENES + encodeURIComponent(nombreConExtension);
+        }
         // ==========================================================================
         // 1. BASE DE DATOS PRINCIPAL (Datos)
         // ==========================================================================
@@ -1058,6 +1056,7 @@
 </body>
 
 </html>
+
 
 
 

@@ -192,18 +192,33 @@
         // ==========================================================================
         // CONFIGURACIÓN DE RUTAS
         // ==========================================================================
-        const RUTA_IMAGENES = "C:/Users/luisc/OneDrive/Documentos/OPS/ARBOL DE DECISIONES/HERRAMIENTAS DE ARBOL/TECNOLOGIAS/SANEAMIENTO/";
+        const RUTA_IMAGENES = "https://raw.githubusercontent.com/LCasusolO/arbol-decision-OPS/main/SANEAMIENTO/";
 
         function resolverRutaImagen(nombreArchivo) {
             if (!nombreArchivo) return '';
+
+            // Si ya es un link completo (http...), lo devolvemos tal cual
             if (nombreArchivo.startsWith('http') || nombreArchivo.startsWith('https')) {
                 return nombreArchivo;
             }
+
             let nombreLimpio = nombreArchivo.trim();
-            if (!nombreLimpio.toLowerCase().endsWith('.png') && !nombreLimpio.toLowerCase().endsWith('.jpg') && !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
-                return RUTA_IMAGENES + nombreLimpio + ".png";
+
+            // CORRECCIÓN: si el nombre termina en punto, lo quitamos
+            if (nombreLimpio.endsWith('.')) {
+                nombreLimpio = nombreLimpio.slice(0, -1);
             }
-            return RUTA_IMAGENES + nombreLimpio;
+
+            // Agrega extensión .png si no la tiene
+            let nombreConExtension = nombreLimpio;
+            if (!nombreLimpio.toLowerCase().endsWith('.png') &&
+                !nombreLimpio.toLowerCase().endsWith('.jpg') &&
+                !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
+                nombreConExtension = nombreLimpio + ".png";
+            }
+
+            // IMPORTANTE: encodeURIComponent convierte los espacios en %20
+            return RUTA_IMAGENES + encodeURIComponent(nombreConExtension);
         }
 
         // ==========================================================================
@@ -268,11 +283,11 @@
 
             // URBANA - Agua Suficiente - Sistema de Recolección y almacenamiento
             { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Sistema de aguas negras con infiltración de efluentes in situ", img: "REF 12", link: "https://drive.google.com/file/d/1tdyZ55Jwil-_wEMbK7ue-sw03AlwqfVz/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Sistema de aguas negras con infiltración (2)", img: "REF 17", link: "https://drive.google.com/file/d/1prfldaT4s7zu46Y5XkApiHlyW2YFW_FA/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Sistema de aguas negras con infiltración de efluentes in situ (2)", img: "REF 17", link: "https://drive.google.com/file/d/1prfldaT4s7zu46Y5XkApiHlyW2YFW_FA/view" },
             { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Tanque séptico", img: "REF 21", link: "https://drive.google.com/file/d/1pz7dMIKhmnmIA_GSIfKqOJODUMRuEqQA/view" },
             { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Filtro Anaerobio de flujo ascendente", titulo: "Filtro anaerobio", img: "REF 13", link: "https://drive.google.com/file/d/1Fh194AQM6FFjXRA1iYPt_WFvEtEz6hR9/view" },
             { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Vaciado y transporte manual o mecanizado", titulo: "Sistema de aguas negras con producción de lodos in situ", img: "REF 14", link: "https://drive.google.com/file/d/1Xk_RRRLw53JZ6ZLb-DNmaTDOhWj2KZ1F/view" },
-            { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Vaciado y transporte manual o mecanizado", titulo: "Sistemas de aguas negras con producción de lodos in situ (2)", img: "REF 30", link: "https://drive.google.com/file/d/1yTajNLiZyg2WYDTaAM5A5rpegHJiLbu8/view" },
+            { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Vaciado y transporte manual o mecanizado", titulo: "Sistema de aguas negras con producción de lodos in situ (2)", img: "REF 30", link: "https://drive.google.com/file/d/1yTajNLiZyg2WYDTaAM5A5rpegHJiLbu8/view" },
             { ambito: "URBANA", disponibilidad: "Agua Suficiente", sistema: "Sistema de Recolección y almacenamiento", categoria: "Inodoros con tanque y tratamiento fuera del sitio", titulo: "Sistemas de aguas negras con producción de lodos in situ", img: "REF 30", link: "https://drive.google.com/file/d/1yTajNLiZyg2WYDTaAM5A5rpegHJiLbu8/view" },
 
             // URBANA - Agua Suficiente - In Situ
@@ -288,7 +303,7 @@
 
             // URBANA - Escasez de Agua - Sistema de Recolección y almacenamiento
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Sistema de aguas negras con infiltración de efluentes in situ", img: "REF 12", link: "https://drive.google.com/file/d/1tdyZ55Jwil-_wEMbK7ue-sw03AlwqfVz/view" },
-            { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Sistema de aguas negras con infiltración (2)", img: "REF 17", link: "https://drive.google.com/file/d/1prfldaT4s7zu46Y5XkApiHlyW2YFW_FA/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Sistema de aguas negras con infiltración de efluentes in situ (2)", img: "REF 17", link: "https://drive.google.com/file/d/1prfldaT4s7zu46Y5XkApiHlyW2YFW_FA/view" },
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "Sistema de Recolección y almacenamiento", categoria: "Tanques Sépticos multifamiliares o públicos", titulo: "Tanque séptico", img: "REF 21", link: "https://drive.google.com/file/d/1pz7dMIKhmnmIA_GSIfKqOJODUMRuEqQA/view" },
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "Sistema de Recolección y almacenamiento", categoria: "Inodoro seco a base de contenedores", titulo: "Inodoro seco con separador de orina y saneamiento a base de contenedores", img: "REF 29", link: "https://drive.google.com/file/d/1vUz0tqI4Kix-e35lLXnknN_LB8j47zID/view" },
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "Sistema de Recolección y almacenamiento", categoria: "Inodoros con tanque y tratamiento fuera del sitio", titulo: "Sistemas de aguas negras con producción de lodos in situ", img: "REF 30", link: "https://drive.google.com/file/d/1yTajNLiZyg2WYDTaAM5A5rpegHJiLbu8/view" },
@@ -297,7 +312,7 @@
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "In Situ", categoria: "Baños secos ecológicos", titulo: "Inodoro seco o inodoro de arrastre hidráulico", img: "REF 18", link: "https://drive.google.com/file/d/1BoGjngvRNJI-i4maxApTsz9FLSEBwgSM/view" },
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "In Situ", categoria: "Tanques sépticos", titulo: "Sistema de aguas negras con infiltración de efluentes in situ", img: "REF 17", link: "https://drive.google.com/file/d/1prfldaT4s7zu46Y5XkApiHlyW2YFW_FA/view" },
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "In Situ", categoria: "Vaciado y transporte manual o mecanizado", titulo: "Sistema de aguas negras con producción de lodos in situ", img: "REF 14", link: "https://drive.google.com/file/d/1Xk_RRRLw53JZ6ZLb-DNmaTDOhWj2KZ1F/view" },
-            { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "In Situ", categoria: "Vaciado y transporte manual o mecanizado", titulo: "Sistemas de aguas negras con producción de lodos in situ (2)", img: "REF 30", link: "https://drive.google.com/file/d/1yTajNLiZyg2WYDTaAM5A5rpegHJiLbu8/view" },
+            { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "In Situ", categoria: "Vaciado y transporte manual o mecanizado", titulo: "Sistema de aguas negras con producción de lodos in situ (2)", img: "REF 30", link: "https://drive.google.com/file/d/1yTajNLiZyg2WYDTaAM5A5rpegHJiLbu8/view" },
             { ambito: "URBANA", disponibilidad: "Escasez de Agua", sistema: "In Situ", categoria: "Inodoros con tratamiento in situ", titulo: "Inodoro seco con separador de orina", img: "REF 20", link: "https://drive.google.com/file/d/1NafhPq2ihazouAKD73W4qF2kstO4EYOh/view" },
         
             // --------------------------------------------------------------------------------------
@@ -563,12 +578,22 @@
             const activeCard = document.createElement('div');
             activeCard.className = 'active-card w-full transition-all duration-500';
 
+            // --- CAMBIOS AQUÍ ---
+            // Se agregaron clases para dar estilo de botón:
+            // bg-white: fondo blanco
+            // border-2 border-blue-100: borde sutil azulado
+            // hover:border-blue-500: el borde se oscurece al pasar el mouse
+            // rounded-full: bordes totalmente redondeados
+            // shadow-sm hover:shadow-md: elevación sutil
+            // transform hover:-translate-y-0.5: pequeña animación hacia arriba
             const backButtonHtml = isRoot ? '' : `
-                <button onclick="goBack()" class="flex items-center text-sm font-semibold mb-4 transition back-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Volver al paso anterior
+                <button onclick="goBack()" class="group flex items-center px-5 py-2 mb-6 text-sm font-bold text-gray-600 transition-all duration-300 bg-white border-2 border-gray-100 rounded-full shadow-sm hover:border-blue-500 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5">
+                    <div class="p-1 mr-2 transition-colors duration-300 bg-gray-100 rounded-full group-hover:bg-blue-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 transition-colors duration-300 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </div>
+                    <span>Volver al paso anterior</span>
                 </button>
             `;
 
@@ -585,7 +610,8 @@
 
             step.options.forEach(option => {
                 const button = document.createElement('button');
-                button.className = 'option-button w-full px-5 py-3 text-white font-semibold rounded-xl focus:outline-none focus:ring-4 focus:ring-green-300 shadow-md';
+                // Mantuve tus clases originales aquí, pero asegúrate de que contrasten bien
+                button.className = 'option-button w-full px-5 py-3 text-white font-semibold rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-md transform transition hover:scale-[1.02] active:scale-95';
                 button.textContent = option.label;
                 button.onclick = () => handleSelection(option, step.question);
                 optionsGrid.appendChild(button);

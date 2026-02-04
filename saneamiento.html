@@ -174,16 +174,23 @@
         <!-- Contenedor Principal -->
         <div id="decision-container" class="space-y-1"></div>
 
-        <!-- Sección de Herramientas -->
-        <div id="tools-box" class="w-full mt-10 pt-6 border-t border-gray-200 hidden"></div>
-
-        <!-- Botón de Reinicio -->
-        <div class="mt-8 pt-4 border-t border-gray-200 flex justify-center">
+        <!-- 
+            CAMBIO: Se eliminó la línea divisoria (border-t) de este contenedor.
+            Ahora el botón aparece limpio debajo de los resultados.
+        -->
+        <div class="mt-8 flex justify-center">
             <button id="restart-button" onclick="restartDecision()"
                 class="hidden px-6 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition duration-150 transform hover:scale-105">
                 Reiniciar Proceso
             </button>
         </div>
+
+        <!-- 
+            CAMBIO: Se agregó 'border-t-4' y 'border-double' para crear la línea doble divisoria
+            exclusivamente en el contenedor de herramientas.
+        -->
+        <div id="tools-box" class="w-full mt-10 pt-6 border-t border-gray-200 hidden"></div>
+
     </div>
 
     <script>
@@ -240,7 +247,8 @@
             { ambito: 'URBANA', documento: 'Tecnologías de saneamiento básico y avanzado, y gestión de aguas pluviales convencionales y no convencionales para poblaciones rurales o periurbanas', enlace: 'https://drive.google.com/file/d/1sdRM2VBHMX5Xto4J4VTsLtWIBB2b4eR9/view?usp=drive_link' },
             { ambito: 'URBANA', documento: 'Guias para el saneamiento y la salud', enlace: 'https://www.who.int/es/publications/i/item/guidelines-on-sanitation-and-health' },
             { ambito: 'URBANA', documento: 'Compendio de sistemas y tecnologías de saneamiento para la Región del Gran Caribe', enlace: 'https://www.giz.de/de/downloads/giz2022-es-compendium-of-sanitation.pdf' },
-            
+            { ambito: 'URBANA', documento: 'Sistemas Integrados de Tratamiento y Uso de Aguas Residuales en América Latina: Realidad y Potencial', enlace: 'https://drive.google.com/file/d/1o3Wo-S8uZUYJDncCLvJBcHzjJbTT3yLH/view?usp=sharing' },
+
             { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
             { ambito: 'RURAL', documento: 'Animaciones: Dia Mundial de la enfermedades tropicales desatendidas', enlace: 'https://who.canto.global/v/JBSAFSL97F/album/VJIJ5?display=fitView&viewIndex=0&gOrderProp=uploadDate&referenceTo&from=fitView' },
             { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano: pequeños sistemas de abastecimiento de agua - Resumen de orientación', enlace: 'https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/water-safety-planning/sanitary-inspection-packages/24_who_smallsystemses_a4_spanish_wr.pdf?sfvrsn=4f003870_9&download=true' },
@@ -256,6 +264,8 @@
             { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano para pequeños sistemas de abastecimiento de agua', enlace: 'https://drive.google.com/file/d/10NWIIxipyryLaN1cWcwy6J48sVVDO5J2/view?usp=drive_link' },
             { ambito: 'RURAL', documento: 'Guias para el saneamiento y la salud', enlace: 'https://www.who.int/es/publications/i/item/guidelines-on-sanitation-and-health' },
             { ambito: 'RURAL', documento: 'Compendio de sistemas y tecnologías de saneamiento para la Región del Gran Caribe', enlace: 'https://www.giz.de/de/downloads/giz2022-es-compendium-of-sanitation.pdf' },
+            { ambito: 'RURAL', documento: 'Sistemas Integrados de Tratamiento y Uso de Aguas Residuales en América Latina: Realidad y Potencial', enlace: 'https://drive.google.com/file/d/1o3Wo-S8uZUYJDncCLvJBcHzjJbTT3yLH/view?usp=sharing' },
+            { ambito: 'RURAL', documento: 'Guía de orientación en saneamiento básico para alcaldías de municipios rurales y pequeñas comunidades', enlace: 'https://drive.google.com/file/d/1jiSVIMyAb3Okvoj263ZjVI-uzUfh6Dj2/view?usp=sharing' },
         ];
 
         // ==========================================================================
@@ -755,3 +765,4 @@
 </body>
 
 </html>
+

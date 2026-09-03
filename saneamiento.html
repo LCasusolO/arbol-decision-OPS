@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Árbol de Decisión Interactivo - Saneamiento</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Iconos Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fc;
+        }
+
+        :root {
+            --color-green-primary: #3AB14B;
+            --color-green-light: #EFF8EF;
+            --color-green-dark: #2A8C39;
+            --color-focus-green: #196727;
+            --color-focus-green-light: #e0f2e3;
+            --node-spacing: 24px;
+        }
+
+        .option-button {
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            color: white;
+            background-color: var(--color-green-primary);
+        }
+
+        .option-button:hover {
+            background-color: var(--color-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card {
+            background-color: var(--color-green-light);
+            border-left: 5px solid var(--color-green-primary);
+        }
+
+        .node-container {
+            position: relative;
+            margin-left: var(--node-spacing);
+            padding-left: 2px;
+        }
+
+        .root-node {
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        .completed-card {
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .completed-card .selection-text {
+            color: var(--color-focus-green);
+        }
+
+        .active-card {
+            background-color: #fff;
+            border: 2px solid var(--color-focus-green);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(25, 103, 39, 0.2);
+            padding: 1.5rem;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        .active-card .question-box {
+            background-color: var(--color-focus-green-light);
+            border-left: 4px solid var(--color-focus-green);
+        }
+
+        .active-card .question-box p {
+            color: var(--color-focus-green);
+        }
+
+        .back-button {
+            color: var(--color-focus-green);
+        }
+
+        .back-button:hover {
+            color: var(--color-green-dark);
+        }
+
+        .completed-card .selection-text svg {
+            color: var(--color-focus-green);
+        }
+
+        .result-card .final-selection-text {
+            color: var(--color-green-primary);
+        }
+
+        details>summary {
+            list-style: none;
+        }
+
+        details>summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open] summary~* {
+            animation: sweep .3s ease-in-out;
+        }
+
+        @keyframes sweep {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px)
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        details[open] .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .custom-accordion {
+            background-color: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+        }
+
+        .custom-accordion summary {
+            color: var(--color-focus-green);
+            font-weight: 600;
+        }
+
+        .custom-accordion:hover {
+            border-color: var(--color-green-primary);
+        }
+    </style>
+</head>
+
+<body class="p-4 sm:p-8 min-h-screen flex flex-col items-center justify-center">
+
+    <div id="app" class="w-full max-w-4xl bg-white rounded-xl shadow-2xl p-6 sm:p-10 border border-gray-100">
+
+        <!-- Encabezado -->
+        <header class="text-center mb-8 sm:mb-12 p-6 rounded-t-xl" style="background-color: var(--color-green-light);">
+            <div class="flex items-center justify-between gap-4 mb-6 w-full">
+                <!-- Logos -->
+                <img src="paho-gac-colorlogo-es.png" alt="Logo de OPS y Canadá" class="max-h-24 w-auto" onerror="this.style.display='none'">
+                <img src="2023-paho-ei-complete-static-logo-rgb-blue-spa@1200x.png" alt="Logo Iniciativa" class="max-h-16 w-auto" onerror="this.style.display='none'">
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-extrabold" style="color: var(--color-green-primary);">
+                Árbol de Decisión Interactivo de Saneamiento Gestionado de Manera Segura
+            </h1>
+        </header>
+
+        <!-- Contenedor Principal -->
+        <div id="decision-container" class="space-y-1"></div>
+
+        <div class="mt-8 flex justify-center">
+            <button id="restart-button" onclick="restartDecision()"
+                class="hidden px-6 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition duration-150 transform hover:scale-105">
+                Reiniciar Proceso
+            </button>
+        </div>
+
+        <div id="tools-box" class="w-full mt-10 pt-6 border-t border-gray-200 hidden"></div>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // ==========================================================================
+        // CONFIGURACIÓN DE RUTAS
+        // ==========================================================================
+        const RUTA_IMAGENES = "https://raw.githubusercontent.com/LCasusolO/arbol-decision-OPS/main/SANEAMIENTO/";
+
+        function resolverRutaImagen(nombreArchivo) {
+            if (!nombreArchivo) return '';
+
+            if (nombreArchivo.startsWith('http') || nombreArchivo.startsWith('https')) {
+                return nombreArchivo;
+            }
+
+            let nombreLimpio = nombreArchivo.trim();
+
+            if (nombreLimpio.endsWith('.')) {
+                nombreLimpio = nombreLimpio.slice(0, -1);
+            }
+
+            let nombreConExtension = nombreLimpio;
+            if (!nombreLimpio.toLowerCase().endsWith('.png') &&
+                !nombreLimpio.toLowerCase().endsWith('.jpg') &&
+                !nombreLimpio.toLowerCase().endsWith('.jpeg')) {
+                nombreConExtension = nombreLimpio + ".png";
+            }
+
+            return RUTA_IMAGENES + encodeURIComponent(nombreConExtension);
+        }
+
+        // ==========================================================================
+        // DATOS DE HERRAMIENTAS Y RECURSOS
+        // ==========================================================================
+        const toolsData = [
+            { ambito: 'URBANO', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
+            { ambito: 'URBANO', documento: 'Protocolo para evaluar la situación del agua, el saneamiento y la higiene en establecimientos de salud con atención a la resiliencia al clima', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55724/978927532501_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Sector de agua potable, saneamiento e higiene: una guía práctica para la coordinación de emergencias de salud pública y desastres', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/31152/Guia%20practica%20para%20la%20coordinacion%20de%20emergencias%20de%20salud%20publica%20y%20desastres.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Situación del marco para la seguridad del agua de consumo humano en América Latina y el Caribe', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55388/9789275324554_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Metodología de los diálogos de saberes', enlace: 'https://iris.paho.org/handle/10665.2/55670' },
+            { ambito: 'URBANO', documento: 'Orientaciones para la elaboración de perfiles de situación de enfermedades transmisibles en el marco de los progresos hacia su eliminación en la Región de las Américas', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/58085/9789275326596_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'URBANO', documento: 'Notas técnicas sobre agua, saneamiento e higiene en emergencias', enlace: 'https://www.paho.org/es/emergencias-salud/notas-tecnicas-sobre-agua-saneamiento-e-higiene-emergencias' },
+            { ambito: 'URBANO', documento: 'Curso Virtual: Planes de Seguridad del Saneamiento Resilientes al Clima', enlace: 'https://campus.paho.org/es/curso/PlanesSeguridad_SaneamientoClima-RC' },
+            { ambito: 'URBANO', documento: 'Curso Virtual: Agua, saneamiento e higiene (WASH) y salud: trabajando juntos', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-e-higiene-wash' },
+            { ambito: 'URBANO', documento: 'Curso sobre agua, saneamiento, higiene y la resiliencia al clima en establecimientos de salud WASH FIT', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-higiene_establecimientos-salud-WASHFIT' },
+            { ambito: 'URBANO', documento: 'Metodologia WASHFIT: Evalucación del Agua, Saneamiento e Higiene en Establecimientos de Salud', enlace: 'https://www.washinhcf.org/wash-fit-espanol/' },
+            { ambito: 'URBANO', documento: 'Tecnologías de saneamiento básico y avanzado, y gestión de aguas pluviales convencionales y no convencionales para poblaciones rurales o periURBANOs', enlace: 'https://drive.google.com/file/d/1sdRM2VBHMX5Xto4J4VTsLtWIBB2b4eR9/view?usp=drive_link' },
+            { ambito: 'URBANO', documento: 'Guias para el saneamiento y la salud', enlace: 'https://www.who.int/es/publications/i/item/guidelines-on-sanitation-and-health' },
+            { ambito: 'URBANO', documento: 'Compendio de sistemas y tecnologías de saneamiento para la Región del Gran Caribe', enlace: 'https://www.giz.de/de/downloads/giz2022-es-compendium-of-sanitation.pdf' },
+            { ambito: 'URBANO', documento: 'Sistemas Integrados de Tratamiento y Uso de Aguas Residuales en América Latina: Realidad y Potencial', enlace: 'https://drive.google.com/file/d/1o3Wo-S8uZUYJDncCLvJBcHzjJbTT3yLH/view?usp=sharing' },
+
+            { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano: Cuarta edición', enlace: 'https://iris.who.int/server/api/core/bitstreams/89633b31-b58e-41e9-913a-a47c37713290/content' },
+            { ambito: 'RURAL', documento: 'Animaciones: Dia Mundial de la enfermedades tropicales desatendidas', enlace: 'https://who.canto.global/v/JBSAFSL97F/album/VJIJ5?display=fitView&viewIndex=0&gOrderProp=uploadDate&referenceTo&from=fitView' },
+            { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano: pequeños sistemas de abastecimiento de agua - Resumen de orientación', enlace: 'https://cdn.who.int/media/docs/default-source/wash-documents/water-safety-and-quality/water-safety-planning/sanitary-inspection-packages/24_who_smallsystemses_a4_spanish_wr.pdf?sfvrsn=4f003870_9&download=true' },
+            { ambito: 'RURAL', documento: 'Situación del marco para la seguridad del agua de consumo humano en América Latina y el Caribe', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55388/9789275324554_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Metodología de los diálogos de saberes', enlace: 'https://iris.paho.org/handle/10665.2/55670' },
+            { ambito: 'RURAL', documento: 'Orientaciones para la elaboración de perfiles de situación de enfermedades transmisibles en el marco de los progresos hacia su eliminación en la Región de las Américas', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/58085/9789275326596_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Guías para el diseño de estaciones de bombeo de agua potable', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55454/OPSCEPIS05161_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Guia de Operación y mantenimiento de sistemas de alcantarillado sanitario en el medio rural', enlace: 'https://iris.paho.org/bitstream/handle/10665.2/55898/OPSCEPIS05152_spa.pdf?sequence=1&isAllowed=y' },
+            { ambito: 'RURAL', documento: 'Curso Virtual: Agua, saneamiento e higiene (WASH) y salud: trabajando juntos', enlace: 'https://campus.paho.org/es/curso/agua-saneamiento-e-higiene-wash' },
+            { ambito: 'RURAL', documento: 'Metodología WASHFIT: Evalucación del Agua, Saneamiento e Higiene en Establecimientos de Salud', enlace: 'https://www.washinhcf.org/wash-fit-espanol/' },
+            { ambito: 'RURAL', documento: 'Tecnologías convencionales y no convencionales de abastecimiento y tratamiento de agua para poblaciones rurales concentradas', enlace: 'https://drive.google.com/file/d/1dJCJ7AWE90ePr1G06xUK8n4n-oE8Y9rk/view?usp=drive_link' },
+            { ambito: 'RURAL', documento: 'Tecnologías de saneamiento básico y avanzado, y gestión de aguas pluviales convencionales y no convencionales para poblaciones rurales o periURBANOs', enlace: 'https://drive.google.com/file/d/1sdRM2VBHMX5Xto4J4VTsLtWIBB2b4eR9/view?usp=drive_link' },
+            { ambito: 'RURAL', documento: 'Guías para la calidad del agua de consumo humano para pequeños sistemas de abastecimiento de agua', enlace: 'https://drive.google.com/file/d/10NWIIxipyryLaN1cWcwy6J48sVVDO5J2/view?usp=drive_link' },
+            { ambito: 'RURAL', documento: 'Guias para el saneamiento y la salud', enlace: 'https://www.who.int/es/publications/i/item/guidelines-on-sanitation-and-health' },
+            { ambito: 'RURAL', documento: 'Compendio de sistemas y tecnologías de saneamiento para la Región del Gran Caribe', enlace: 'https://www.giz.de/de/downloads/giz2022-es-compendium-of-sanitation.pdf' },
+            { ambito: 'RURAL', documento: 'Sistemas Integrados de Tratamiento y Uso de Aguas Residuales en América Latina: Realidad y Potencial', enlace: 'https://drive.google.com/file/d/1o3Wo-S8uZUYJDncCLvJBcHzjJbTT3yLH/view?usp=sharing' },
+            { ambito: 'RURAL', documento: 'Guía de orientación en saneamiento básico para alcaldías de municipios rurales y pequeñas comunidades', enlace: 'https://drive.google.com/file/d/1jiSVIMyAb3Okvoj263ZjVI-uzUfh6Dj2/view?usp=sharing' },
+        ];
+
+        // ==========================================================================
+        // VARIABLES GLOBALES Y CARGA DE DATOS DESDE JSON
+        // ==========================================================================
+        let catalogoTecnologias = {};
+        let reglasSaneamiento = [];
+
+        async function cargarDatos() {
+            try {
+                const [resCatalogo, resReglas] = await Promise.all([
+                    fetch('./data/catalogo-saneamiento.json'),
+                    fetch('./data/reglas-saneamiento.json')
+                ]);
+
+                catalogoTecnologias = await resCatalogo.json();
+                reglasSaneamiento = await resReglas.json();
+
+                renderPath();
+            } catch (error) {
+                console.error("Error al cargar las bases de datos de Saneamiento:", error);
+            }
+        }
+
+        // ==========================================================================
+        // ESTRUCTURA DEL ÁRBOL
+        // ==========================================================================
+        const decisionTree = {
+            id: 'root',
+            question: "Ámbito de Intervención WASH",
+            options: [
+                {
+                    label: "URBANO",
+                    id: 'urbano',
+                    next: {
+                        question: "Disponibilidad de Agua",
+                        options: [
+                            {
+                                label: "Agua Suficiente",
+                                id: 'urbano-suficiente',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Alcantarillado", final: true },
+                                        { label: "Sistema de Recolección y almacenamiento", final: true },
+                                        { label: "In Situ", final: true }
+                                    ]
+                                }
+                            },
+                            {
+                                label: "Escasez de Agua",
+                                id: 'urbano-escasez',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Recolección y almacenamiento", final: true },
+                                        { label: "In Situ", final: true }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    label: "RURAL",
+                    id: 'rural',
+                    next: {
+                        question: "Disponibilidad de Agua",
+                        options: [
+                            {
+                                label: "Agua Suficiente",
+                                id: 'rural-suficiente',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Alcantarillado", final: true },
+                                        { label: "Sistema de Recolección y almacenamiento", final: true },
+                                        { label: "Lagunas", final: true },
+                                        { label: "In Situ", final: true }
+                                    ]
+                                }
+                            },
+                            {
+                                label: "Escasez de Agua",
+                                id: 'rural-escasez',
+                                next: {
+                                    question: "Tipo de Sistema",
+                                    options: [
+                                        { label: "Sistema de Recolección y almacenamiento", final: true },
+                                        { label: "In Situ", final: true }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+        const container = document.getElementById('decision-container');
+        const restartButton = document.getElementById('restart-button');
+        const toolsBox = document.getElementById('tools-box');
+        let currentPath = [];
+
+        // --- LÓGICA DE BÚSQUEDA Y CRUCE NORMALIZADO ---
+        function normalizarTexto(txt) {
+            return (txt || '').replace(/[\/\s]+/g, ' ').trim().toLowerCase();
+        }
+
+        function buscarResultados(caminoUsuario) {
+            if (caminoUsuario.length < 3) return [];
+
+            const ambito = normalizarTexto(caminoUsuario[0].selection);
+            const disponibilidad = normalizarTexto(caminoUsuario[1].selection);
+            const sistema = normalizarTexto(caminoUsuario[2].selection);
+
+            const regla = reglasSaneamiento.find(r => 
+                normalizarTexto(r.ambito) === ambito &&
+                normalizarTexto(r.disponibilidad) === disponibilidad &&
+                normalizarTexto(r.sistema) === sistema
+            );
+
+            if (!regla || !regla.recomendaciones) return [];
+
+            const resultados = [];
+            regla.recomendaciones.forEach(rec => {
+                rec.techs.forEach(techId => {
+                    const dataFicha = catalogoTecnologias[techId];
+                    if (dataFicha) {
+                        resultados.push({
+                            categoria: rec.categoria,
+                            titulo: dataFicha.titulo,
+                            img: dataFicha.img,
+                            link: dataFicha.link
+                        });
+                    }
+                });
+            });
+
+            return resultados;
+        }
+
+        function agruparPorCategoria(items) {
+            const grupos = {};
+            items.forEach(item => {
+                const cat = item.categoria || "Otras Tecnologías";
+                if (!grupos[cat]) {
+                    grupos[cat] = [];
+                }
+                grupos[cat].push(item);
+            });
+            return grupos;
+        }
+
+        // --- RENDERIZADO DEL ÁRBOL ---
+        function renderNode(index, parentNode) {
+            const pathItem = currentPath[index];
+            const isRoot = index === 0;
+
+            const nodeContainer = document.createElement('div');
+            nodeContainer.className = `node-container ${isRoot ? 'root-node' : ''}`;
+            parentNode.appendChild(nodeContainer);
+
+            const completedCard = document.createElement('div');
+            completedCard.className = 'completed-card w-full shadow-md';
+            completedCard.innerHTML = `
+                <p class="text-sm font-bold text-gray-600">${pathItem.question}</p>
+                <p class="text-lg font-extrabold mt-1 flex items-center selection-text">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    ${pathItem.selection}
+                </p>
+            `;
+            nodeContainer.appendChild(completedCard);
+
+            if (index + 1 < currentPath.length) {
+                renderNode(index + 1, nodeContainer);
+            } else {
+                const currentStepData = pathItem.nextStep;
+                if (currentStepData.final === true) {
+                    displayResult(nodeContainer);
+                } else {
+                    renderActiveStep(currentStepData, nodeContainer);
+                }
+            }
+        }
+
+        function renderPath() {
+            container.innerHTML = '';
+            restartButton.classList.add('hidden');
+            toolsBox.classList.add('hidden');
+
+            if (currentPath.length === 0) {
+                renderActiveStep(decisionTree, container, true);
+            } else {
+                renderNode(0, container);
+            }
+        }
+
+        function renderActiveStep(step, parentNode, isRoot = false) {
+            const activeContainer = document.createElement('div');
+            activeContainer.className = `node-container ${isRoot ? 'root-node' : ''}`;
+            parentNode.appendChild(activeContainer);
+
+            const activeCard = document.createElement('div');
+            activeCard.className = 'active-card w-full transition-all duration-500';
+
+            const backButtonHtml = isRoot ? '' : `
+                <button onclick="goBack()" class="group flex items-center px-5 py-2 mb-6 text-sm font-bold text-gray-600 transition-all duration-300 bg-white border-2 border-gray-100 rounded-full shadow-sm hover:border-blue-500 hover:text-blue-600 hover:shadow-md hover:-translate-y-0.5">
+                    <div class="p-1 mr-2 transition-colors duration-300 bg-gray-100 rounded-full group-hover:bg-blue-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 transition-colors duration-300 group-hover:text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </div>
+                    <span>Volver al paso anterior</span>
+                </button>
+            `;
+
+            activeCard.innerHTML = `
+                ${backButtonHtml}
+                <div class="mb-6 p-4 rounded-lg question-box">
+                    <p class="text-xl font-bold">${step.question}</p>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="options-grid"></div>
+            `;
+            activeContainer.appendChild(activeCard);
+
+            const optionsGrid = activeCard.querySelector('#options-grid');
+
+            step.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option-button w-full px-5 py-3 text-white font-semibold rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 shadow-md transform transition hover:scale-[1.02] active:scale-95';
+                button.textContent = option.label;
+                button.onclick = () => handleSelection(option, step.question);
+                optionsGrid.appendChild(button);
+            });
+        }
+
+        function handleSelection(option, previousQuestion) {
+            currentPath.push({
+                question: previousQuestion,
+                selection: option.label,
+                nextStep: option.next || option
+            });
+            renderPath();
+        }
+
+        // --- RENDERIZADO DE RESULTADOS ---
+        function displayResult(parentNode) {
+            let resultadosEncontrados = buscarResultados(currentPath);
+            
+            if (resultadosEncontrados.length === 0) {
+                resultadosEncontrados = [{
+                    categoria: "Ficha Ficticia (Faltan Datos)",
+                    titulo: "Tecnología No Registrada (Editar Base de Datos)",
+                    img: "placeholder",
+                    link: "#"
+                }];
+            }
+
+            const grupos = agruparPorCategoria(resultadosEncontrados);
+            const resultContainer = document.createElement('div');
+            resultContainer.className = 'node-container mt-4';
+            parentNode.appendChild(resultContainer);
+
+            let htmlContent = '';
+
+            for (const [categoria, items] of Object.entries(grupos)) {
+                const cardsHtml = items.map(item => `
+                    <a href="${item.link}" target="_blank" class="group block bg-gray-50 rounded-lg overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-200 hover:border-blue-400">
+                        <div class="aspect-video w-full overflow-hidden relative bg-white border-b border-gray-100">
+                            <img src="${resolverRutaImagen(item.img)}" alt="${item.titulo}" class="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/600x400?text=Sin+Imagen'">
+                        </div>
+                        <div class="p-3">
+                            <p class="text-sm font-bold text-blue-700 flex items-center justify-between leading-snug">
+                                ${item.titulo}
+                                <i data-lucide="external-link" class="w-3 h-3 flex-shrink-0 ml-2"></i>
+                            </p>
+                        </div>
+                    </a>
+                `).join('');
+
+                htmlContent += `
+                    <details class="custom-accordion mb-3 shadow-sm overflow-hidden transition-all open:shadow-md group">
+                        <summary class="flex items-center justify-between cursor-pointer p-4 bg-white hover:bg-blue-50 transition-colors select-none">
+                            <div class="flex items-center gap-3">
+                                <span class="text-base font-semibold leading-tight" style="color: var(--color-focus-green);">
+                                    ${categoria}
+                                </span>
+                            </div>
+                            <i data-lucide="chevron-down" class="accordion-arrow text-gray-400 w-5 h-5 transition-transform duration-300"></i>
+                        </summary>
+                        <div class="p-4 border-t border-gray-100 bg-slate-50">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                ${cardsHtml}
+                            </div>
+                        </div>
+                    </details>
+                `;
+            }
+
+            const finalResultHtml = `
+                <div class="result-card p-6 rounded-xl shadow-xl space-y-4 relative">
+                    <p class="text-xl font-extrabold" style="color: var(--color-green-dark);">
+                        Tecnologías Recomendadas:
+                    </p>
+                    <div class="h-1 rounded w-full mb-4" style="background-color: var(--color-green-primary);"></div> 
+                    <div class="mt-4">
+                        ${htmlContent}
+                    </div>
+                </div>
+            `;
+
+            resultContainer.innerHTML = finalResultHtml;
+            restartButton.classList.remove('hidden');
+            
+            lucide.createIcons();
+            
+            if (currentPath.length > 0) {
+                let ambitoSeleccionado = currentPath[0].selection.toUpperCase();
+                renderToolsBox(ambitoSeleccionado);
+            }
+        }
+
+        function renderToolsBox(ambito) {
+            const filteredTools = toolsData.filter(tool => tool.ambito.toUpperCase() === ambito);
+            
+            if (filteredTools.length === 0) {
+                toolsBox.classList.add('hidden');
+                return;
+            }
+
+            const toolsListHtml = filteredTools.map(tool => `
+                <li class="p-3 bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition duration-150">
+                    <a href="${tool.enlace}" target="_blank" class="text-sm font-medium flex items-start hover:text-blue-700" style="color: var(--color-green-dark);">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mt-1 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                        <span class="flex-grow">${tool.documento}</span>
+                    </a>
+                </li>
+            `).join('');
+
+            toolsBox.innerHTML = `
+                <h2 class="text-2xl font-bold mb-4 pt-4 border-t" style="color: var(--color-focus-green);">Herramientas y Recursos</h2>
+                <p class="text-sm text-gray-600 mb-4">Los siguientes recursos están disponibles para el ámbito ${ambito.toLowerCase()}:</p>
+                <ul class="space-y-3 p-4 bg-gray-50 rounded-lg border border-gray-100 shadow-inner">
+                    ${toolsListHtml}
+                </ul>
+            `;
+            toolsBox.classList.remove('hidden');
+        }
+
+        function goBack() {
+            if (currentPath.length > 0) {
+                currentPath.pop();
+                renderPath();
+            }
+        }
+
+        function restartDecision() {
+            currentPath = [];
+            toolsBox.classList.add('hidden');
+            renderPath();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarDatos();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+{
+  "FICHA_2": {
+    "titulo": "Sistema de gravedad con tratamiento",
+    "img": "FICHA 2",
+    "link": "https://drive.google.com/file/d/1aAwRSZkpjcoV3YMgvMR20CT_QLOV0Iz2/view"
+  },
+  "FICHA_4": {
+    "titulo": "Sistema de bombeo con tratamiento",
+    "img": "FICHA 4",
+    "link": "https://drive.google.com/file/d/191_xFuz1ts4HH2TxfF4qSibNSupayD78/view"
+  },
+  "FICHA_5": {
+    "titulo": "Miniacueducto por gravedad (MAG)",
+    "img": "FICHA 5",
+    "link": "https://drive.google.com/file/d/1ht5BwGVtZl63otn3My8m9Iq96Mez56Qq/view"
+  },
+  "FICHA_6": {
+    "titulo": "Miniacueducto por bombeo (MAB)",
+    "img": "FICHA 6",
+    "link": "https://drive.google.com/file/d/107Ky8kv9ELFyDFJ1zyZVmyhT6H13ktoE/view"
+  },
+  "FICHA_7": {
+    "titulo": "Módulo de abastecimiento de agua con paneles solares",
+    "img": "FICHA 7",
+    "link": "https://drive.google.com/file/d/1LZi1kh94OaWCmwCb6svPtkT7r8aNOvoA/view"
+  },
+  "FICHA_9": {
+    "titulo": "Cosecha de agua lluvia en techos",
+    "img": "FICHA 9",
+    "link": "https://drive.google.com/file/d/17xD0CsTGwQMCu4x6LKE7vXMZbyO0yaqi/view"
+  },
+  "FICHA_10": {
+    "titulo": "Cosecha de agua lluvia en estanques de tierra",
+    "img": "FICHA 10",
+    "link": "https://drive.google.com/file/d/1iZhM9TCzLh46WqEcPhc2KkoEA4HV6nMI/view"
+  },
+  "FICHA_13": {
+    "titulo": "Bombas manuales",
+    "img": "FICHA 13",
+    "link": "https://drive.google.com/file/d/1vn4fbgIgsS-60Z3-_T1bDp6U8SIN2bUz/view"
+  },
+  "FICHA_14": {
+    "titulo": "Bombas con paneles solares",
+    "img": "FICHA 14",
+    "link": "https://drive.google.com/file/d/18-cXVercNewbhQ0WF7q-yTh0_rA-SRyy/view"
+  },
+  "FICHA_15": {
+    "titulo": "Bomba manual multifamiliar con energía eólica",
+    "img": "FICHA 15",
+    "link": "https://drive.google.com/file/d/16ElKHJFg8WwXZu2AN5vyWUm7GNm5PeKS/view"
+  },
+  "FICHA_17": {
+    "titulo": "Pozos perforados",
+    "img": "FICHA 17",
+    "link": "https://drive.google.com/file/d/1NutE5bLtA8siwcUbXKWtSVIUFwAtfrlA/view"
+  },
+  "FICHA_18": {
+    "titulo": "Pozos a tajo abierto",
+    "img": "FICHA 18",
+    "link": "https://drive.google.com/file/d/1v4Vyzgyr6GAREch1-vK09Y3bHjugrrx0/view"
+  },
+  "FICHA_20": {
+    "titulo": "Reservorios",
+    "img": "FICHA 20",
+    "link": "https://drive.google.com/file/d/1-xhZ2Sff4lgmQBCCHEyYjG20QuTWn4ii/view"
+  },
+  "FICHA_21": {
+    "titulo": "Filtración lenta con arena",
+    "img": "FICHA 21",
+    "link": "https://drive.google.com/file/d/1B1Syb7MLE3DMbIi4MwUxGDHlKKVzY1w0/view"
+  },
+  "FICHA_22": {
+    "titulo": "Filtro rápido de arena",
+    "img": "FICHA 22",
+    "link": "https://drive.google.com/file/d/1jVU073_HFP4uZYrg_4OTOn5ohq4wocCn/view"
+  },
+  "FICHA_29": {
+    "titulo": "Ósmosis inversa",
+    "img": "FICHA 29",
+    "link": "https://drive.google.com/file/d/12BO1uoH3jyClCpJH9lFE0i3NOIzKEv3m/view"
+  },
+  "FICHA_30": {
+    "titulo": "Filtración en múltiples etapas (FiME)",
+    "img": "FICHA 30",
+    "link": "https://drive.google.com/file/d/1ox8-zzaTyPMMckejxHJ-EoIje8D9jrM9/view"
+  },
+  "FICHA_31": {
+    "titulo": "Hipoclorador por goteo con flotador",
+    "img": "FICHA 31",
+    "link": "https://drive.google.com/file/d/1o2VhwFIhCu31u4nRljQq0dZZPiPBFpQ-/view"
+  },
+  "FICHA_32": {
+    "titulo": "Hipoclorador por goteo de carga constante de doble recipiente",
+    "img": "FICHA 32",
+    "link": "https://drive.google.com/file/d/1xHjsF56BbTtoFme3OpTWMPX02q9d_M2a/view"
+  },
+  "FICHA_33": {
+    "titulo": "Sistemas automatizados de cloración por inyección: venturi y gravedad",
+    "img": "FICHA 33",
+    "link": "https://drive.google.com/file/d/10-cBNP56UlAZatjUt4JAaCMXzyd8KjVq/view"
+  },
+  "FICHA_34": {
+    "titulo": "Dosificador de cloro con bomba eléctrica",
+    "img": "FICHA 34",
+    "link": "https://drive.google.com/file/d/15P52_D8dyQPWmLzw8ME0fwcVhdigqWwW/view"
+  },
+  "FICHA_35": {
+    "titulo": "Planta potabilizadora compacta o modular",
+    "img": "FICHA 35",
+    "link": "https://drive.google.com/file/d/1NqZwCHPXdfX8KsnYONJOriAnXui7dVM3/view"
+  },
+  "FICHA_37": {
+    "titulo": "Water trucking",
+    "img": "FICHA 37",
+    "link": "https://drive.google.com/file/d/1aWqhRaxEdRDJyW0rMX3v0-fXRpifNCFQ/view"
+  },
+  "FICHA_38": {
+    "titulo": "Tratamiento de agua a nivel domiciliario y almacenamiento seguro (TANDAS)",
+    "img": "FICHA 38",
+    "link": "https://drive.google.com/file/d/19rkjuvOYvF3HuvK46IBQFS3UOdOUwLfz/view"
+  },
+  "FICHA_39": {
+    "titulo": "Filtro lento de arena a nivel domiciliario",
+    "img": "FICHA 39",
+    "link": "https://drive.google.com/file/d/1LF4cSQR4lD_8tCGSc0I0AtTNkgkIgPK2/view"
+  },
+  "FICHA_40": {
+    "titulo": "SODIS - Pasteurización solar",
+    "img": "FICHA 40",
+    "link": "https://drive.google.com/file/d/14RTQOPVoQ0O2l3IUxfT20DllCjS7JZt9/view"
+  },
+  "FICHA_41": {
+    "titulo": "Filtrón",
+    "img": "FICHA 41",
+    "link": "https://drive.google.com/file/d/1elP1f4OyFbs5dWpbsQDhk1-MFdecCD3B/view"
+  },
+  "FICHA_42": {
+    "titulo": "Filtro de cerámica (solo)",
+    "img": "FICHA 42",
+    "link": "https://drive.google.com/file/d/1EWi5qLjkuxwaOLitwHsTh6_gjgblz5r7/view"
+  },
+  "FICHA_43": {
+    "titulo": "Sedimentación (almacenamiento o tres recipientes)",
+    "img": "FICHA 43",
+    "link": "https://drive.google.com/file/d/1CKMs4q-JeOh86TzQghTgqW7Z17W5h3Iv/view"
+  },
+  "FICHA_44": {
+    "titulo": "Cloración mediante cloro líquido (hipoclorito de sodio) o cloro sólido (hipoclorito de calcio).",
+    "img": "FICHA 44",
+    "link": "https://drive.google.com/file/d/167Lgodcgp9JZKgUOdZUzA1iVEgRz_64y/view"
+  },
+  "FICHA_45": {
+    "titulo": "Biofiltro de arena",
+    "img": "FICHA 45",
+    "link": "https://drive.google.com/file/d/1rLZNW9haM6voTtrkvcBliagk5qNZnRnD/view"
+  },
+  "FICHA_46": {
+    "titulo": "Filtro de carbón activado",
+    "img": "FICHA 46",
+    "link": "https://drive.google.com/file/d/1wj2JCX3AsrAFdtMqzAuhY4h2DoGiXtsZ/view"
+  },
+  "FICHA_47": {
+    "titulo": "Esterilizador de luz ultravioleta",
+    "img": "FICHA 47",
+    "link": "https://drive.google.com/file/d/1ngc6m7ziFPu04Om6iWHWqI6wNwgPYM1l/view"
+  },
+  "FICHA_48": {
+    "titulo": "Ecofiltro",
+    "img": "FICHA 48",
+    "link": "https://drive.google.com/file/d/13wCmjX71GyetHD84sMYVhno6uoAOdbIa/view"
+  },
+  "FICHA_49": {
+    "titulo": "Filtros artesanal de grava, arena, carbón y algodón",
+    "img": "FICHA 49",
+    "link": "https://drive.google.com/file/d/1fF6KzW9tjCBEuRoEEV6aJieqoVRyueFR/view"
+  },
+  "FICHA_50": {
+    "titulo": "Filtros Lifestraw® Community",
+    "img": "FICHA 50",
+    "link": "https://drive.google.com/file/d/1MjeRHnbqQsVuQi0xURfoWdZ2ZWSw0u1t/view"
+  },
+  "FICHA_51": {
+    "titulo": "Ebullición",
+    "img": "FICHA 51",
+    "link": "https://drive.google.com/file/d/1qMOZdDw-DrQefyNEfvAwOk6sdrXAy7mW/view"
+  },
+  "FICHA_52": {
+    "titulo": "Captación de agua de niebla",
+    "img": "FICHA 52",
+    "link": "https://drive.google.com/file/d/1hAd1iFdMaaFQMLdV2GREE42xz7OA2SDA/view"
+  },
+  "DOC_POB_DISPERSA": {
+    "titulo": "Tecnologías para abastecimiento de agua en poblacion dispersas",
+    "img": "Doc agua pob dispersa",
+    "link": "https://iris.paho.org/server/api/core/bitstreams/b8211947-ab8d-44f1-bf17-3894b35d60ca/content"
+  },
+  "DOC_FILTRA_MULTI": {
+    "titulo": "Guía para diseño de sistemas de tratamiento de filtración en múltiples etapas",
+    "img": "Doc filtra multi",
+    "link": "http://www.elaguapotable.com/Guia%20dise%C3%B1o%20filtraci%C3%B3n%20en%20multiples%20etapas.pdf"
+  },
+  "WEB_AGUA_CLARA": {
+    "titulo": "Tecnología con un enfoque sostenible",
+    "img": "Pag web agua",
+    "link": "https://www.apphonduras.org/aguaclara-1"
+  },
+  "DOC_AGUA_SANEAMIENTO": {
+    "titulo": "Agua y Saneamiento: en búsqueda de nuevos paradigmas para las Américas",
+    "img": "documento agua y saneamiento",
+    "link": "https://iris.paho.org/server/api/core/bitstreams/ce6ed140-9f9f-41bf-b105-0c6130c57584/content"
+  },
+  "DOC_POTABLE_REUSE": {
+    "titulo": "Potable reuse : Guidance for producing safe drinking-water",
+    "img": "Doc potable reuse",
+    "link": "https://iris.who.int/server/api/core/bitstreams/5437587b-229e-4c4e-895b-2d34e84df032/content"
+  }
+}

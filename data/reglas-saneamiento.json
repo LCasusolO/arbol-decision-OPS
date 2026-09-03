@@ -1,0 +1,359 @@
+[
+  {
+    "ambito": "RURAL",
+    "disponibilidad": "Agua Suficiente",
+    "sistema": "Sistema de Alcantarillado",
+    "recomendaciones": [
+      {
+        "categoria": "Alcantarillado convencional",
+        "techs": ["REF_0", "REF_1"]
+      },
+      {
+        "categoria": "Alcantarillado condominial",
+        "techs": ["REF_2"]
+      },
+      {
+        "categoria": "Reactores Anaeróbicos con deflectores (ABR)",
+        "techs": ["REF_4", "REF_5_6"]
+      },
+      {
+        "categoria": "Filtro Percolador",
+        "techs": ["REF_23"]
+      },
+      {
+        "categoria": "Reactor anerobio de flujo ascendente",
+        "techs": ["REF_24", "REF_29"]
+      },
+      {
+        "categoria": "Tanque Imhoff",
+        "techs": ["REF_3", "REF_28"]
+      },
+      {
+        "categoria": "Lodos activados",
+        "techs": ["REF_7"]
+      },
+      {
+        "categoria": "Humedal artificial o Biofiltros",
+        "techs": ["REF_8", "REF_9"]
+      },
+      {
+        "categoria": "Filtración terciaria y desinfección",
+        "techs": ["REF_26"]
+      },
+      {
+        "categoria": "Reactor de Biogas",
+        "techs": ["REF_26"]
+      },
+      {
+        "categoria": "Lechos de Secado",
+        "techs": ["REF_26"]
+      },
+      {
+        "categoria": "Cámara de compostaje",
+        "techs": ["REF_26"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL",
+    "disponibilidad": "Agua Suficiente",
+    "sistema": "Sistema de Recolección y almacenamiento",
+    "recomendaciones": [
+      {
+        "categoria": "Tanques Sépticos multifamiliares o públicos (barriales)",
+        "techs": ["REF_12", "REF_17", "REF_21"]
+      },
+      {
+        "categoria": "Reactores Anaeróbicos con deflectores (ABR)",
+        "techs": ["REF_4", "REF_5_6"]
+      },
+      {
+        "categoria": "Filtro Percolador",
+        "techs": ["REF_23"]
+      },
+      {
+        "categoria": "Reactor anerobio de flujo ascendente",
+        "techs": ["REF_24"]
+      },
+      {
+        "categoria": "Tanque Imhoff",
+        "techs": ["REF_28", "REF_3"]
+      },
+      {
+        "categoria": "Filtro Anaerobio de flujo ascendente",
+        "techs": ["REF_24", "REF_29"]
+      },
+      {
+        "categoria": "Inodoro de arrastre hidráulico con tratamiento in situ en pozo doble",
+        "techs": ["REF_32"]
+      },
+      {
+        "categoria": "Vaciado y transporte manual o mecanizado",
+        "techs": ["REF_14"]
+      },
+      {
+        "categoria": "Pozo de absorción",
+        "techs": ["REF_40", "REF_29"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL",
+    "disponibilidad": "Agua Suficiente",
+    "sistema": "Lagunas",
+    "recomendaciones": [
+      {
+        "categoria": "Lagunas de oxidación",
+        "techs": ["REF_35", "REF_36", "REF_37", "REF_38"]
+      },
+      {
+        "categoria": "Lagunas de maduración",
+        "techs": ["REF_36"]
+      },
+      {
+        "categoria": "Lagunas facultativas",
+        "techs": ["REF_37"]
+      },
+      {
+        "categoria": "Laguna de sedimentación",
+        "techs": ["REF_38"]
+      },
+      {
+        "categoria": "Humedal artificial",
+        "techs": ["REF_26"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL",
+    "disponibilidad": "Agua Suficiente",
+    "sistema": "In Situ",
+    "recomendaciones": [
+      {
+        "categoria": "Letrina de cierre hidráulico",
+        "techs": ["REF_16"]
+      },
+      {
+        "categoria": "Tanques sépticos",
+        "techs": ["REF_12", "REF_17", "REF_21", "REF_31"]
+      },
+      {
+        "categoria": "Baños secos ecológicos con sistema de recolección",
+        "techs": ["REF_17"]
+      },
+      {
+        "categoria": "Inodoro de arrastre hidráulico con tratamiento in situ en pozo doble de lodos",
+        "techs": ["REF_18", "REF_17"]
+      },
+      {
+        "categoria": "Humedal artificial",
+        "techs": ["REF_20", "REF_29", "REF_31"]
+      },
+      {
+        "categoria": "Pozo de absorción",
+        "techs": ["REF_20", "REF_29", "REF_31"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL",
+    "disponibilidad": "Escasez de Agua",
+    "sistema": "Sistema de Recolección y almacenamiento",
+    "recomendaciones": [
+      {
+        "categoria": "Tanques Sépticos multifamiliares o públicos (barriales)",
+        "techs": ["REF_12", "REF_17", "REF_21"]
+      },
+      {
+        "categoria": "Inodoro seco a base de contenedores",
+        "techs": ["REF_29"]
+      },
+      {
+        "categoria": "Fosa Séptica",
+        "techs": ["REF_12", "REF_17", "REF_21"]
+      },
+      {
+        "categoria": "Vaciado y transporte manual o mecanizado",
+        "techs": ["REF_22", "REF_30"]
+      },
+      {
+        "categoria": "Lodos activados",
+        "techs": ["REF_7"]
+      },
+      {
+        "categoria": "Cámara de compostaje",
+        "techs": ["REF_30"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL",
+    "disponibilidad": "Escasez de Agua",
+    "sistema": "In Situ",
+    "recomendaciones": [
+      {
+        "categoria": "Fosa Séptica",
+        "techs": ["REF_12", "REF_17", "REF_21"]
+      },
+      {
+        "categoria": "Vaciado y transporte manual o mecanizado",
+        "techs": ["REF_22", "REF_30"]
+      },
+      {
+        "categoria": "Baños secos ecológicos con separación de orina",
+        "techs": ["REF_19"]
+      },
+      {
+        "categoria": "Baño de cámara doble mejorada ventilada o de fosa alterna",
+        "techs": ["REF_32"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "sistema": "Sistema de Alcantarillado",
+    "recomendaciones": [
+      {
+        "categoria": "Alcantarillado convencional",
+        "techs": ["REF_0", "REF_1"]
+      },
+      {
+        "categoria": "Alcantarillado con inodoros con separación de orina",
+        "techs": ["REF_34"]
+      },
+      {
+        "categoria": "Alcantarillado condominial",
+        "techs": ["REF_2"]
+      },
+      {
+        "categoria": "Reactores Anaeróbicos con deflectores (ABR)",
+        "techs": ["REF_4", "REF_5_6"]
+      },
+      {
+        "categoria": "Filtro Percolador",
+        "techs": ["REF_23"]
+      },
+      {
+        "categoria": "Reactor anerobio de flujo ascendente",
+        "techs": ["REF_24"]
+      },
+      {
+        "categoria": "Lodos activados",
+        "techs": ["REF_7"]
+      },
+      {
+        "categoria": "Humedal artificial o Biofiltros",
+        "techs": ["REF_8", "REF_9"]
+      },
+      {
+        "categoria": "Filtración terciaria y desinfección",
+        "techs": ["REF_10", "REF_11"]
+      },
+      {
+        "categoria": "Reuso de lodos o aguas residuales (riego, recarga de acuíferos, pozo de absorción) fertilizantes (aplicación de orina, aplicación de compost), materia prima en ladrillos etc.)",
+        "techs": ["REF_10", "REF_11"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "sistema": "Sistema de Recolección y almacenamiento",
+    "recomendaciones": [
+      {
+        "categoria": "Tanques Sépticos multifamiliares o públicos (barriales) insitu o fuera del sitio",
+        "techs": ["REF_12", "REF_17", "REF_21"]
+      },
+      {
+        "categoria": "Filtro Anaerobio de flujo ascendente",
+        "techs": ["REF_13"]
+      },
+      {
+        "categoria": "Vaciado y transporte manual o mecanizado",
+        "techs": ["REF_14", "REF_30"]
+      },
+      {
+        "categoria": "Inodoros con tanque y tratamiento fuera del sitio",
+        "techs": ["REF_30"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "sistema": "In Situ",
+    "recomendaciones": [
+      {
+        "categoria": "Alcantarillado condominial",
+        "techs": ["REF_2"]
+      },
+      {
+        "categoria": "Alcantarillado de pequeño diámetro para efluentes y disposición de aguas grises",
+        "techs": ["REF_15"]
+      },
+      {
+        "categoria": "Letrina de cierre hidráulico",
+        "techs": ["REF_16"]
+      },
+      {
+        "categoria": "Tanques sépticos",
+        "techs": ["REF_17"]
+      },
+      {
+        "categoria": "Inodoros con tratamiento in situ",
+        "techs": ["REF_20"]
+      },
+      {
+        "categoria": "Baños secos ecológicos con sistema de recolección de lodos",
+        "techs": ["REF_18"]
+      },
+      {
+        "categoria": "Humedal artificial",
+        "techs": ["REF_8", "REF_9"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Escasez de Agua",
+    "sistema": "Sistema de Recolección y almacenamiento",
+    "recomendaciones": [
+      {
+        "categoria": "Tanques Sépticos multifamiliares o públicos (barriales) insitu o fuera del sitio",
+        "techs": ["REF_12", "REF_17", "REF_21"]
+      },
+      {
+        "categoria": "Inodoro seco a base de contenedores",
+        "techs": ["REF_39"]
+      },
+      {
+        "categoria": "Inodoros con tanque y tratamiento fuera del sitio",
+        "techs": ["REF_30"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Escasez de Agua",
+    "sistema": "In Situ",
+    "recomendaciones": [
+      {
+        "categoria": "Baños secos ecológicos",
+        "techs": ["REF_18"]
+      },
+      {
+        "categoria": "Tanques sépticos",
+        "techs": ["REF_17"]
+      },
+      {
+        "categoria": "Vaciado y transporte manual o mecanizado",
+        "techs": ["REF_14", "REF_30"]
+      },
+      {
+        "categoria": "Inodoros con tratamiento in situ",
+        "techs": ["REF_20"]
+      }
+    ]
+  }
+]

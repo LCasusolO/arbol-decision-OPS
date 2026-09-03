@@ -1,0 +1,866 @@
+[
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Planta de Tratamiento apropiada",
+        "techs": ["DOC_POB_DISPERSA"]
+      },
+      {
+        "categoria": "Plantas tipo FIME",
+        "techs": ["DOC_FILTRA_MULTI", "FICHA_30"]
+      },
+      {
+        "categoria": "AGUA CLARA",
+        "techs": ["WEB_AGUA_CLARA"]
+      },
+      {
+        "categoria": "Cloración centralizada: por goteo o con tabletas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Pilas públicas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_4", "FICHA_5", "FICHA_6"]
+      },
+      {
+        "categoria": "Llave pública",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_5", "FICHA_4", "FICHA_6"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_50"]
+      },
+      {
+        "categoria": "Filtro de Barro, cerámica",
+        "techs": ["FICHA_41", "FICHA_42"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Biofiltro de Arena",
+        "techs": ["FICHA_38"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Desinfección Solar",
+        "techs": ["FICHA_40"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo motorizado, solar, ariete hidráulico o manual",
+        "techs": ["FICHA_4", "FICHA_6", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Llave pública con cloración centralizad: por goteo con tabletas",
+        "techs": ["FICHA_2", "FICHA_4", "FICHA_5", "FICHA_6", "FICHA_31", "FICHA_32"]
+      },
+      {
+        "categoria": "Planta de Tratamiento apropiada",
+        "techs": ["DOC_POB_DISPERSA"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo motorizado, solar, ariete hidráulico o manual",
+        "techs": ["FICHA_4", "FICHA_6", "FICHA_7", "FICHA_13", "FICHA_14", "FICHA_15", "FICHA_17", "FICHA_18"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de Barro con arena",
+        "techs": ["FICHA_41", "FICHA_42"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Pilas públicas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_4", "FICHA_5", "FICHA_6"]
+      },
+      {
+        "categoria": "Llave pública con cloración centralizada por goteo en red o con tabletas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_5", "FICHA_4", "FICHA_6"]
+      },
+      {
+        "categoria": "Planta de Tratamiento apropiada",
+        "techs": ["DOC_POB_DISPERSA"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Pilas públicas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_4", "FICHA_5", "FICHA_6"]
+      },
+      {
+        "categoria": "Llave pública",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_5", "FICHA_4", "FICHA_6"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de barro, cerámica",
+        "techs": ["FICHA_41", "FICHA_42"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Biofiltro de Arena",
+        "techs": ["FICHA_45"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo Manual",
+        "techs": ["FICHA_13"]
+      },
+      {
+        "categoria": "Cloración centralizada",
+        "techs": ["FICHA_31", "FICHA_32"]
+      },
+      {
+        "categoria": "Por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Con tabletas",
+        "techs": ["FICHA_32"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de barro, cerámica",
+        "techs": ["FICHA_41", "FICHA_42"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Biofiltro de Arena",
+        "techs": ["FICHA_45"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL CONCENTRADO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Agua Lluvia",
+    "abastecimiento": "Sistema de Recolección en techos / Captación de agua de niebla",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Filtración: Biofiltro de Arena",
+        "techs": ["FICHA_45"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Atrapa nieblas",
+        "techs": ["DOC_POB_DISPERSA"]
+      },
+      {
+        "categoria": "Cosecha de Agua Lluvia en estanques",
+        "techs": ["FICHA_10"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Cloración centralizada: por goteo con tabletas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Planta de Tratamiento apropiada",
+        "techs": ["DOC_POB_DISPERSA"]
+      },
+      {
+        "categoria": "Plantas tipo FIME",
+        "techs": ["DOC_FILTRA_MULTI"]
+      },
+      {
+        "categoria": "Agua clara",
+        "techs": ["WEB_AGUA_CLARA"]
+      },
+      {
+        "categoria": "Llave pública",
+        "techs": ["FICHA_31", "FICHA_2", "FICHA_5", "FICHA_4", "FICHA_6"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de Barro, cerámica",
+        "techs": ["FICHA_41", "FICHA_42"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Biofiltro de Arena",
+        "techs": ["FICHA_45"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo motorizado o manual",
+        "techs": ["FICHA_4", "FICHA_6", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Cloración centralizada por goteo con tabletas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Planta de Tratamiento apropiada",
+        "techs": ["DOC_POB_DISPERSA"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Llave pública",
+        "techs": ["FICHA_32"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo motorizado o manual",
+        "techs": ["FICHA_4", "FICHA_6", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de Barro con arena",
+        "techs": ["FICHA_41"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Filtro de mesa",
+        "techs": ["FICHA_42"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Superficial",
+    "abastecimiento": "Fuente protegida con acarreo",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Cloración centralizada por goteo con tabletas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Planta de Tratamiento apropiada",
+        "techs": ["DOC_POB_DISPERSA"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Superficial",
+    "abastecimiento": "Fuente protegida con acarreo",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de Barro, cerámica",
+        "techs": ["FICHA_41", "FICHA_42"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Biofiltro de Arena",
+        "techs": ["FICHA_45"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo excavado",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo Manual",
+        "techs": ["FICHA_13"]
+      },
+      {
+        "categoria": "Cloración centralizada",
+        "techs": ["FICHA_31", "FICHA_32"]
+      },
+      {
+        "categoria": "Por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Con tabletas",
+        "techs": ["FICHA_32"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo excavado",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de Barro, cerámica",
+        "techs": ["FICHA_41", "FICHA_42"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Biofiltro de Arena",
+        "techs": ["FICHA_45"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "RURAL DISPERSO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Agua Lluvia",
+    "abastecimiento": "Sistema de Recolección en techos / Captación de agua de niebla",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Cosecha de Agua Lluvia en estanques y en techos",
+        "techs": ["FICHA_9", "FICHA_10"]
+      },
+      {
+        "categoria": "Atrapanieblas",
+        "techs": ["FICHA_52"]
+      },
+      {
+        "categoria": "Filtración: Biofiltro de Arena",
+        "techs": ["FICHA_45"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Plantas de tratamiento de alta eficiencia y otros sistemas de tratamiento",
+        "techs": ["FICHA_2", "FICHA_10", "FICHA_20", "FICHA_21", "FICHA_22", "FICHA_42", "FICHA_5", "FICHA_35"]
+      },
+      {
+        "categoria": "Micromedición",
+        "techs": ["DOC_AGUA_SANEAMIENTO"]
+      },
+      {
+        "categoria": "Sensores de consumo inteligentes",
+        "techs": ["DOC_POTABLE_REUSE"]
+      },
+      {
+        "categoria": "Uso de aparatos de bajo consumo de agua (inodoros, duchas, lavadoras)",
+        "techs": ["DOC_POTABLE_REUSE"]
+      },
+      {
+        "categoria": "Reuso de lodos o aguas residuales (riego, recarga de acuíferos, materia prima en ladrillos etc.)",
+        "techs": ["DOC_POTABLE_REUSE"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Suministro de agua en Tanques cisterna o tanques comunitarios de almacenamiento de agua potable",
+        "techs": ["FICHA_37"]
+      },
+      {
+        "categoria": "Micromedición",
+        "techs": ["DOC_AGUA_SANEAMIENTO"]
+      },
+      {
+        "categoria": "Llave Pública con desinfección centralizada",
+        "techs": ["FICHA_32"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo motorizado, solar o manual",
+        "techs": ["FICHA_4", "FICHA_6", "FICHA_7", "FICHA_13", "FICHA_14", "FICHA_15", "FICHA_17", "FICHA_18"]
+      },
+      {
+        "categoria": "Sistema de tratamiento Cloración centralizada",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Por goteo con tabletas",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Planta de Tratamiento apropiada",
+        "techs": ["FICHA_35"]
+      },
+      {
+        "categoria": "Micromedición",
+        "techs": ["DOC_AGUA_SANEAMIENTO"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Llave pública con dsinfección centralizada",
+        "techs": ["FICHA_32"]
+      },
+      {
+        "categoria": "Sensores consumo inteligente",
+        "techs": ["DOC_POTABLE_REUSE"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Bombeo motorizado, solar o manual",
+        "techs": ["FICHA_4", "FICHA_6", "FICHA_7", "FICHA_13", "FICHA_14", "FICHA_15", "FICHA_17", "FICHA_18"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Filtro de Barro con arena",
+        "techs": ["FICHA_39"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Micromedición",
+        "techs": ["DOC_AGUA_SANEAMIENTO"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Agua Suficiente",
+    "fuente": "Agua Lluvia",
+    "abastecimiento": "Sistema de Captación en techos",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Sistemas comunitarios de agua lluvia con filtración centralizada",
+        "techs": ["FICHA_9", "FICHA_10", "FICHA_32"]
+      },
+      {
+        "categoria": "Llaves publicas",
+        "techs": ["FICHA_32"]
+      },
+      {
+        "categoria": "Tanques de almacenamiento seguro domiciliarios",
+        "techs": ["FICHA_38"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Pilas públicas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Llave pública",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Plantas de tratamiento de alta eficiencia y otros sistemas de tratamiento",
+        "techs": ["FICHA_2", "FICHA_10", "FICHA_20", "FICHA_21", "FICHA_22", "FICHA_42", "FICHA_5", "FICHA_35"]
+      },
+      {
+        "categoria": "Desaladoras",
+        "techs": ["FICHA_2", "FICHA_29"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Control de Agua no contabilizada",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Superficial",
+    "abastecimiento": "Gravedad/bombeo",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Pilas públicas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_5", "FICHA_4"]
+      },
+      {
+        "categoria": "Llave pública",
+        "techs": ["FICHA_6", "FICHA_31", "FICHA_32", "FICHA_2", "FICHA_5", "FICHA_4"]
+      },
+      {
+        "categoria": "Bombeo Manual",
+        "techs": ["FICHA_13"]
+      },
+      {
+        "categoria": "Bombeo solar",
+        "techs": ["FICHA_7"]
+      },
+      {
+        "categoria": "Cloración centralizada por goteo con tabletas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Con Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Pilas públicas",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_2", "FICHA_5", "FICHA_4"]
+      },
+      {
+        "categoria": "Llave pública",
+        "techs": ["FICHA_6", "FICHA_31", "FICHA_32", "FICHA_2", "FICHA_5", "FICHA_4"]
+      },
+      {
+        "categoria": "Plantas de alta eficiencia y bajo consumo energético",
+        "techs": ["FICHA_2", "FICHA_10", "FICHA_20", "FICHA_21", "FICHA_22", "FICHA_42", "FICHA_5", "FICHA_35"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a Nivel Domiciliar: Filtro de Barro , cerámica",
+        "techs": ["FICHA_41"]
+      },
+      {
+        "categoria": "Filtro de Carbón activado",
+        "techs": ["FICHA_46"]
+      },
+      {
+        "categoria": "Biofiltro de Arena",
+        "techs": ["FICHA_45", "FICHA_49"]
+      },
+      {
+        "categoria": "Cloración por goteo",
+        "techs": ["FICHA_31"]
+      },
+      {
+        "categoria": "Ebullición",
+        "techs": ["FICHA_51"]
+      },
+      {
+        "categoria": "Desinfección Solar",
+        "techs": ["FICHA_40"]
+      },
+      {
+        "categoria": "Luz Ultravioleta",
+        "techs": ["FICHA_47"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Subterránea",
+    "abastecimiento": "Pozo Perforado / Pozo Excavado",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Suministro de agua en tanques cisterna a, tanques comunitarios de almacenamiento de agua potable y cloración en taque",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33", "FICHA_34", "FICHA_37"]
+      },
+      {
+        "categoria": "Micromedición",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33"]
+      },
+      {
+        "categoria": "Llave Pública con desinfección centralizada",
+        "techs": ["FICHA_31", "FICHA_32", "FICHA_33"]
+      },
+      {
+        "categoria": "Tratamiento de Agua a nivel domiciliar",
+        "techs": ["FICHA_38", "FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      }
+    ]
+  },
+  {
+    "ambito": "URBANO",
+    "disponibilidad": "Escasez de Agua",
+    "fuente": "Agua Lluvia",
+    "abastecimiento": "Sistema de Captación en techos",
+    "distribucion": "Sin Red pública",
+    "recomendaciones": [
+      {
+        "categoria": "Filtración: Biofiltro de Arena",
+        "techs": ["FICHA_45", "FICHA_46", "FICHA_48", "FICHA_49", "FICHA_50"]
+      },
+      {
+        "categoria": "Almacenamiento seguro en el hogar",
+        "techs": ["FICHA_39", "FICHA_41", "FICHA_42", "FICHA_43", "FICHA_44", "FICHA_45", "FICHA_46", "FICHA_47", "FICHA_48", "FICHA_49", "FICHA_50", "FICHA_51"]
+      },
+      {
+        "categoria": "Atrapanieblas",
+        "techs": ["DOC_POB_DISPERSA"]
+      }
+    ]
+  }
+]
